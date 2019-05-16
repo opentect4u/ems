@@ -1,12 +1,17 @@
 
 <div class="card">
     <div class="card-body">
-        <h4 class="card-title">
-            <a class="btn btn-info btn-rounded"
-                href="<?php echo site_url('employee/add'); ?>" 
-            >Add New Employee</a>
-            <div style="float: right;" class="alert alert-<?php echo $this->session->flashdata('msg')['status']; ?>"></div>
-        </h4>
+        <!-- <div class="row"> -->
+            <h4 class="card-title row">
+                <div class="col-md-2">
+                    <a class="btn btn-info btn-rounded"
+                        href="<?php echo site_url('employee/add'); ?>" 
+                    >Add Employee</a>
+                </div>
+                <div class="col-md-7"></div>
+                <div class="col-md-3 alert alert-<?php echo $this->session->flashdata('msg')['status']; ?>"></div>
+            </h4>
+        <!-- </div> -->
         <div class="row">
             <div class="col-12">
                 <div class="table-responsive">
@@ -61,10 +66,9 @@
                                     </td>
                                     <td>
                                     
-                                        <a id="<?php echo $e_dtls->emp_code; ?>"
-                                        href="javascript:void(0)"
-                                        class="edit"
-                                        title="Edit"
+                                        <a href="<?php echo site_url('employee/edit?emp_no='.$e_dtls->emp_code); ?>"
+                                           class="edit"
+                                           title="Edit"
                                         >
 
                                             <i class="fas fa-pencil-alt text-inverse m-r-10" style="color: #007bff"></i>
@@ -150,7 +154,7 @@
 
             <?php if($this->session->flashdata('msg')['message']){ ?>
 
-                $('.alert').html('<?php echo $this->session->flashdata('msg')['message']; ?> <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">×</span> </button>').show();
+                $('.alert').html('<?php echo $this->session->flashdata('msg')['message']; ?> <button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>').show();
 
             <?php } ?>
 

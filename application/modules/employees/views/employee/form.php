@@ -2,7 +2,10 @@
     <div class="card">
         <div class="card-body">
             <h4 class="card-title">Employee's</h4>
-            <form class="form-sample">
+            <form class="form-sample" 
+                  method="POST"
+                  action="<?php echo site_url('employee/'.$url); ?>"
+            >
                 <p class="card-description">
                     Personal info
                 </p>
@@ -13,7 +16,9 @@
                             <div class="col-sm-9">
                                 <input type="text" 
                                        class="form-control"
+                                       name="emp_code"
                                        value="<?php echo $emp->emp_code; ?>"
+                                       <?php echo ($url == 'edit')? 'readonly': ''; ?>
                                     />
                             </div>
                         </div>
@@ -24,6 +29,7 @@
                             <div class="col-sm-9">
                                 <input type="text" 
                                        class="form-control"
+                                       name="emp_name"
                                        value="<?php echo $emp->emp_name; ?>"
                                     />
                             </div>
@@ -35,7 +41,7 @@
                         <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Gender</label>
                             <div class="col-sm-9">
-                                <select class="form-control">
+                                <select name="gender" class="form-control">
                                     <option value="F" <?php echo ($emp->gender == 'F')? 'selected':''; ?>>Female</option>
                                     <option value="M" <?php echo ($emp->gender == 'M')? 'selected':''; ?>>Male</option>
                                     <option value="O" <?php echo ($emp->gender == 'O')? 'selected':''; ?>>Othre</option>
@@ -47,7 +53,7 @@
                         <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Marital Status</label>
                             <div class="col-sm-9">
-                                <select class="form-control">
+                                <select name="marital_status" class="form-control">
                                     <option value="M" <?php echo ($emp->marital_status == 'M')? 'selected':''; ?>>Married</option>
                                     <option value="U" <?php echo ($emp->marital_status == 'U')? 'selected':''; ?>>Unmarried</option>
                                 </select>
@@ -62,6 +68,7 @@
                             <div class="col-sm-9">
                                 <input type="text" 
                                        class="form-control"
+                                       name="gurd_name"
                                        value="<?php echo $emp->gurd_name; ?>"
                                     />
                             </div>
@@ -77,7 +84,8 @@
                             <label class="col-sm-3 col-form-label">Primary Mobile No</label>
                             <div class="col-sm-9">
                                 <input type="text" 
-                                       class="form-control" 
+                                       class="form-control"
+                                       name="prim_mob" 
                                        value="<?php echo $emp->prim_mob; ?>"
                                     />
                             </div>
@@ -89,6 +97,7 @@
                             <div class="col-sm-9">
                                 <input type="text" 
                                        class="form-control"
+                                       name="sec_mob"
                                        value="<?php echo $emp->sec_mob; ?>"
                                     />
                             </div>
@@ -102,6 +111,7 @@
                             <div class="col-sm-9">
                                 <input type="text" 
                                        class="form-control"
+                                       name="personal_email"
                                        value="<?php echo $emp->personal_email; ?>"
                                     />
                             </div>
@@ -112,7 +122,8 @@
                             <label class="col-sm-3 col-form-label">Professional Email</label>
                             <div class="col-sm-9">
                                 <input type="text" 
-                                       class="form-control" 
+                                       class="form-control"
+                                       name="prof_email" 
                                        value="<?php echo $emp->prof_email; ?>"                                       
                                     />
                             </div>
@@ -177,7 +188,8 @@
                             <label class="col-sm-3 col-form-label">City</label>
                             <div class="col-sm-9">
                                 <input type="text" 
-                                       class="form-control" 
+                                       class="form-control"
+                                       name="city" 
                                        value="<?php echo $emp->city; ?>"
                                     />
                             </div>
@@ -188,7 +200,8 @@
                             <label class="col-sm-3 col-form-label">Postal Code</label>
                             <div class="col-sm-9">
                                 <input type="text" 
-                                       class="form-control" 
+                                       class="form-control"
+                                       name="postal_code" 
                                        value="<?php echo $emp->postal_code; ?>"
                                     />
                             </div>
@@ -200,7 +213,7 @@
                         <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Present Address</label>
                             <div class="col-sm-9">
-                                <textarea class="form-control"><?php echo $emp->present_address; ?></textarea>
+                                <textarea name="present_address" class="form-control"><?php echo $emp->present_address; ?></textarea>
                             </div>
                         </div>
                     </div>
@@ -208,7 +221,7 @@
                         <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Parmanent Address</label>
                             <div class="col-sm-9">
-                                <textarea class="form-control"><?php echo $emp->parmanent_address; ?></textarea>
+                                <textarea name="parmanent_address" class="form-control"><?php echo $emp->parmanent_address; ?></textarea>
                             </div>
                         </div>
                     </div>
@@ -223,7 +236,8 @@
                             <label class="col-sm-3 col-form-label">Blood Group</label>
                             <div class="col-sm-9">
                                 <input type="text" 
-                                       class="form-control" 
+                                       class="form-control"
+                                       name="blood_grp" 
                                        value="<?php echo $emp->blood_grp; ?>"
                                        />
                             </div>
@@ -235,6 +249,7 @@
                             <div class="col-sm-9">
                                 <input type="text" 
                                        class="form-control"
+                                       name="identity_mark"
                                        value="<?php echo $emp->identity_mark; ?>"
                                        />
                             </div>
@@ -251,6 +266,7 @@
                             <div class="col-sm-9">
                                 <input type="text" 
                                        class="form-control"
+                                       name="bank_name"
                                        value="<?php echo $emp->bank_name; ?>"
                                        />
                             </div>
@@ -262,6 +278,7 @@
                             <div class="col-sm-9">
                                 <input type="text" 
                                        class="form-control"
+                                       name="branch_name"
                                        value="<?php echo $emp->branch_name; ?>"
                                     />
                             </div>
@@ -274,7 +291,8 @@
                             <label class="col-sm-3 col-form-label">Account No</label>
                             <div class="col-sm-9">
                                 <input type="text" 
-                                       class="form-control" 
+                                       class="form-control"
+                                       name="account_no" 
                                        value="<?php echo $emp->account_no; ?>"
                                     />
                             </div>
@@ -285,7 +303,8 @@
                             <label class="col-sm-3 col-form-label">PAN No</label>
                             <div class="col-sm-9">
                                 <input type="text"
-                                       class="form-control" 
+                                       class="form-control"
+                                       name="pan_no" 
                                        value="<?php echo $emp->pan_no; ?>"
                                     />
                             </div>
@@ -298,7 +317,8 @@
                             <label class="col-sm-3 col-form-label">PF No</label>
                             <div class="col-sm-9">
                                 <input type="text" 
-                                       class="form-control" 
+                                       class="form-control"
+                                       name="pf_no" 
                                        value="<?php echo $emp->pf_no; ?>"
                                     />
                             </div>
@@ -310,6 +330,7 @@
                             <div class="col-sm-9">
                                 <input type="text" 
                                        class="form-control"
+                                       name="esi_no"
                                        value="<?php echo $emp->esi_no; ?>"
                                     />
                             </div>
@@ -322,7 +343,8 @@
                             <label class="col-sm-3 col-form-label">Adhar No</label>
                             <div class="col-sm-9">
                                 <input type="text" 
-                                       class="form-control" 
+                                       class="form-control"
+                                       name="adhar_no" 
                                        value="<?php echo $emp->adhar_no; ?>"
                                     />
                             </div>
@@ -334,6 +356,7 @@
                             <div class="col-sm-9">
                                 <input type="text"
                                        class="form-control"
+                                       name="passport_no"
                                        value="<?php echo $emp->passport_no; ?>"
                                     />
                             </div>
@@ -349,7 +372,8 @@
                             <label class="col-sm-3 col-form-label">Emargency Name</label>
                             <div class="col-sm-9">
                                 <input type="text" 
-                                       class="form-control" 
+                                       class="form-control"
+                                       name="emargency_name" 
                                        value="<?php echo $emp->emargency_name; ?>"
                                        />
                             </div>
@@ -361,6 +385,7 @@
                             <div class="col-sm-9">
                                 <input type="text" 
                                        class="form-control"
+                                       name="relation"
                                        value="<?php echo $emp->relation; ?>"
                                     />
                             </div>
@@ -374,6 +399,7 @@
                             <div class="col-sm-9">
                                 <input type="text" 
                                        class="form-control"
+                                       name="imargency_contact_no"
                                        value="<?php echo $emp->imargency_contact_no; ?>"
                                     />
                             </div>
@@ -383,7 +409,7 @@
                         <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Address</label>
                             <div class="col-sm-9">
-                                <textarea class="form-control"><?php echo $emp->imargency_address; ?></textarea>
+                                <textarea class="form-control" name="imargency_address"><?php echo $emp->imargency_address; ?></textarea>
                             </div>
                         </div>
                     </div>
@@ -398,6 +424,7 @@
                             <div class="col-sm-9">
                                 <input type="text" 
                                        class="form-control"
+                                       name="designation"
                                        value="<?php echo $emp->designation; ?>"
                                     />
                             </div>
@@ -407,7 +434,21 @@
                         <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Department</label>
                             <div class="col-sm-9">
-                                <textarea class="form-control"></textarea>
+                                <select class="form-control"
+                                        name="department"
+                                    >
+
+                                        <option value="">Select</option>
+                                    <?php
+                                        foreach($department as $list){
+                                    ?>
+                                        <option value="<?php echo $list->sl_no; ?>" <?php echo ($emp->department == $list->sl_no)? 'selected':''; ?>><?php echo $list->dept_name; ?></option>
+
+                                    <?php
+                                        }
+                                    ?>
+                                    
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -417,10 +458,13 @@
                         <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Category</label>
                             <div class="col-sm-9">
-                                <input type="text" 
-                                       class="form-control"
-                                       value="<?php echo $emp->category; ?>"
-                                    />
+                                <select class="form-control" name="category">
+
+                                    <option value="">Select</option>
+                                    <option value="C" <?php echo ($emp->category == 'C')? 'selected':'';?>>Confirmed Employee</option>
+                                    <option value="P" <?php echo ($emp->category == 'P')? 'selected':'';?>>Probationary Period</option>
+
+                                </select>    
                             </div>
                         </div>
                     </div>
@@ -430,6 +474,7 @@
                             <div class="col-sm-9">
                                 <input type="date" 
                                        class="form-control"
+                                       name="joining_dt"
                                        value="<?php echo $emp->joining_dt; ?>"
                                     />
                             </div>
@@ -443,6 +488,7 @@
                             <div class="col-sm-9">
                                 <input type="text" 
                                        class="form-control"
+                                       name="document_sub"
                                        value="<?php echo $emp->document_sub ; ?>"
                                     />
                             </div>
@@ -452,10 +498,15 @@
                         <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Employee Type</label>
                             <div class="col-sm-9">
-                                <input type="text" 
-                                       class="form-control"
-                                       value="<?php echo $emp->emp_type ; ?>"
-                                    />
+
+                                <select class="form-control" name="emp_type">
+                                    <option value="">Select</option>
+                                    <option value="E" <?php echo ($emp->emp_type == 'E')? 'selected':'';?> >Employee</option>
+                                    <option value="H" <?php echo ($emp->emp_type == 'H')? 'selected':'';?> >HOD</option>
+                                    <option value="HR"<?php echo ($emp->emp_type == 'HR')? 'selected':'';?> >HR</option>
+
+                                </select>    
+
                             </div>
                         </div>
                     </div>
@@ -465,10 +516,11 @@
                         <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Employee Status</label>
                             <div class="col-sm-9">
-                                <input type="text" 
-                                       class="form-control"
-                                       value="<?php echo $emp->status; ?>"
-                                    />
+                                <select class="form-control" name="status">
+                                    <option value="">Select</option>
+                                    <option value="A" <?php echo ($emp->status == 'A')? 'selected':'';?>>Active</option>
+                                    <option value="I" <?php echo ($emp->status == 'I')? 'selected':'';?>>Inactive</option>
+                                </select>    
                             </div>
                         </div>
                     </div>
@@ -478,6 +530,7 @@
                             <div class="col-sm-9">
                                 <input type="date" 
                                        class="form-control"
+                                       name="termination_dt"
                                        value="<?php echo $emp->termination_dt; ?>"
                                     />
                             </div>
@@ -491,6 +544,7 @@
                             <div class="col-sm-9">
                                 <input type="text" 
                                        class="form-control"
+                                       name="file_no"
                                        value="<?php echo $emp->file_no; ?>"
                                     />
                             </div>
@@ -523,15 +577,15 @@
 
             if($(this).val() == 'E'){
 
-                $('#emp_catg').val('');
-                $('#emp_catg').show();
+                $('#category').val('');
+                $('#category').show();
 
             }
             else if($(this).val() != 'E'){
 
-                $('#emp_catg').val('C');
+                $('#category').val('C');
 
-                //$('#emp_catg').hide();
+                //$('#category').hide();
                 
             }
 
