@@ -44,7 +44,7 @@
                                 <select name="gender" class="form-control">
                                     <option value="F" <?php echo ($emp->gender == 'F')? 'selected':''; ?>>Female</option>
                                     <option value="M" <?php echo ($emp->gender == 'M')? 'selected':''; ?>>Male</option>
-                                    <option value="O" <?php echo ($emp->gender == 'O')? 'selected':''; ?>>Othre</option>
+                                    <option value="O" <?php echo ($emp->gender == 'O')? 'selected':''; ?>>Others</option>
                                 </select>
                             </div>
                         </div>
@@ -54,6 +54,7 @@
                             <label class="col-sm-3 col-form-label">Marital Status</label>
                             <div class="col-sm-9">
                                 <select name="marital_status" class="form-control">
+                                    <option value="">Select</option>
                                     <option value="M" <?php echo ($emp->marital_status == 'M')? 'selected':''; ?>>Married</option>
                                     <option value="U" <?php echo ($emp->marital_status == 'U')? 'selected':''; ?>>Unmarried</option>
                                 </select>
@@ -107,24 +108,24 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group row">
-                            <label class="col-sm-3 col-form-label">Personal Email</label>
-                            <div class="col-sm-9">
-                                <input type="text" 
-                                       class="form-control"
-                                       name="personal_email"
-                                       value="<?php echo $emp->personal_email; ?>"
-                                    />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Professional Email</label>
                             <div class="col-sm-9">
                                 <input type="text" 
                                        class="form-control"
                                        name="prof_email" 
                                        value="<?php echo $emp->prof_email; ?>"                                       
+                                    />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Personal Email</label>
+                            <div class="col-sm-9">
+                                <input type="text" 
+                                       class="form-control"
+                                       name="personal_email"
+                                       value="<?php echo $emp->personal_email; ?>"
                                     />
                             </div>
                         </div>
@@ -219,7 +220,7 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group row">
-                            <label class="col-sm-3 col-form-label">Parmanent Address</label>
+                            <label class="col-sm-3 col-form-label">Permanent Address</label>
                             <div class="col-sm-9">
                                 <textarea name="parmanent_address" class="form-control"><?php echo $emp->parmanent_address; ?></textarea>
                             </div>
@@ -235,11 +236,22 @@
                         <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Blood Group</label>
                             <div class="col-sm-9">
-                                <input type="text" 
-                                       class="form-control"
-                                       name="blood_grp" 
-                                       value="<?php echo $emp->blood_grp; ?>"
-                                       />
+                                <select class="form-control"
+                                        name="blood_grp"
+                                    >
+
+                                        <option value="">Select</option>
+                                   
+                                        <option value="A+" <?php echo ($emp->blood_grp == 'A+')? 'selected':''; ?> >A+</option>
+                                        <option value="A-" <?php echo ($emp->blood_grp == 'A-')? 'selected':''; ?> >A-</option>
+                                        <option value="B+" <?php echo ($emp->blood_grp == 'B+')? 'selected':''; ?> >B+</option>
+                                        <option value="B-" <?php echo ($emp->blood_grp == 'B-')? 'selected':''; ?> >B-</option>
+                                        <option value="O+" <?php echo ($emp->blood_grp == 'O+')? 'selected':''; ?> >O+</option>
+                                        <option value="O-" <?php echo ($emp->blood_grp == 'O-')? 'selected':''; ?> >O-</option>
+                                        <option value="AB+" <?php echo ($emp->blood_grp == 'AB+')? 'selected':''; ?> >AB+</option>
+                                        <option value="AB-" <?php echo ($emp->blood_grp == 'AB-')? 'selected':''; ?> >AB-</option>
+                                    
+                                </select>       
                             </div>
                         </div>
                     </div>
@@ -364,12 +376,12 @@
                     </div>
                 </div>
                 <p class="card-description">
-                    Emargency Contacts
+                    Emergency Contacts
                 </p>
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group row">
-                            <label class="col-sm-3 col-form-label">Emargency Name</label>
+                            <label class="col-sm-3 col-form-label">Contact Name</label>
                             <div class="col-sm-9">
                                 <input type="text" 
                                        class="form-control"
@@ -415,7 +427,7 @@
                     </div>
                 </div>
                 <p class="card-description">
-                    Other Details
+                    Professional Details
                 </p>
                 <div class="row">
                     <div class="col-md-6">
@@ -484,29 +496,13 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group row">
-                            <label class="col-sm-3 col-form-label">Document Subject</label>
+                            <label class="col-sm-3 col-form-label">Document Submitted</label>
                             <div class="col-sm-9">
                                 <input type="text" 
                                        class="form-control"
                                        name="document_sub"
                                        value="<?php echo $emp->document_sub ; ?>"
                                     />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group row">
-                            <label class="col-sm-3 col-form-label">Employee Type</label>
-                            <div class="col-sm-9">
-
-                                <select class="form-control" name="emp_type">
-                                    <option value="">Select</option>
-                                    <option value="E" <?php echo ($emp->emp_type == 'E')? 'selected':'';?> >Employee</option>
-                                    <option value="H" <?php echo ($emp->emp_type == 'H')? 'selected':'';?> >HOD</option>
-                                    <option value="HR"<?php echo ($emp->emp_type == 'HR')? 'selected':'';?> >HR</option>
-
-                                </select>    
-
                             </div>
                         </div>
                     </div>
@@ -517,7 +513,6 @@
                             <label class="col-sm-3 col-form-label">Employee Status</label>
                             <div class="col-sm-9">
                                 <select class="form-control" name="status">
-                                    <option value="">Select</option>
                                     <option value="A" <?php echo ($emp->status == 'A')? 'selected':'';?>>Active</option>
                                     <option value="I" <?php echo ($emp->status == 'I')? 'selected':'';?>>Inactive</option>
                                 </select>    

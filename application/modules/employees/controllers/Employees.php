@@ -112,7 +112,6 @@ class Employees extends MX_Controller {
                                   "emp_catg" => $this->input->post("category"),
                                   "joining_date" => $this->input->post("joining_dt"),
                                   "doc_sub" => $this->input->post("document_sub"),
-                                  "emp_type" => $this->input->post("emp_type"),
                                   "emp_status" => $this->input->post("status"),
                                   "termination_date" => $this->input->post("termination_dt"),
                                   "emp_file_no" => $this->input->post("file_no"),
@@ -195,7 +194,6 @@ class Employees extends MX_Controller {
                                         "designation"      =>    NULL,
                                         "postal_code"      =>    NULL,
                                         "department"       =>    NULL,
-                                        "emp_type"         =>    NULL,
                                         "termination_date" =>    NULL,
                                         "present_address"  =>    NULL,
                                         "parmanent_address"=>    NULL,
@@ -277,7 +275,6 @@ class Employees extends MX_Controller {
                                   "emp_catg" => $this->input->post("category"),
                                   "joining_date" => $this->input->post("joining_dt"),
                                   "doc_sub" => $this->input->post("document_sub"),
-                                  "emp_type" => $this->input->post("emp_type"),
                                   "emp_status" => $this->input->post("status"),
                                   "termination_date" => $this->input->post("termination_dt"),
                                   "emp_file_no" => $this->input->post("file_no"),
@@ -320,7 +317,7 @@ class Employees extends MX_Controller {
             "branch_name", "acc_no account_no", "pan_no", "pf_no", "esi_no",
             "adhar_no", "passport passport_no", "relation", "emg_name emargency_name", "contact_no imargency_contact_no",
             "contact_address imargency_address", "designation", "emp_catg category", "joining_date joining_dt",
-            "doc_sub document_sub", "emp_type", "emp_status status", "termination_date termination_dt",
+            "doc_sub document_sub", "emp_type", "termination_date termination_dt",
             "emp_file_no file_no"
 
         );
