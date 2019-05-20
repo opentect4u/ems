@@ -24,7 +24,7 @@ class Auths extends MX_Controller {
 
                         "u.user_id", "u.user_name", "m.department", "m.emp_catg",
 
-                        "m.emp_type", "u.org_id",
+                        "u.org_id",
 
                     );
 
@@ -168,7 +168,7 @@ class Auths extends MX_Controller {
             //User Details
             $select = array("emp_code", "emp_name", "department",
                             "designation", "personal_email", 
-                            "emp_type", "img_path");
+                            "img_path");
 
             $link['user_dtls']   = $this->Auth->f_get_particulars("md_employee", $select, array("emp_code" => $this->session->userdata('loggedin')->user_id), 1);
 

@@ -41,7 +41,8 @@ class Employees extends MX_Controller {
         $select = array(
             
                     "m.emp_code", "m.emp_name", "d.dept_name department",
-                    "m.designation", "m.personal_email", "m.img_path", "m.emp_status"
+                    "m.designation", "m.personal_email", "m.img_path", "m.emp_status",
+                    "m.prof_email"
                     
         );
         
@@ -122,6 +123,90 @@ class Employees extends MX_Controller {
             
             $this->Employee->f_insert('md_employee', $data_array);
             
+            //Education
+            unset($data_array);
+            if(!empty($this->input->post('board')[0])){
+
+                for($i = 0; $i < count($this->input->post('board')); $i++){
+                    $data_array[] = array(
+                        "org_id" => $this->session->userdata('loggedin')->org_id,
+                        "emp_code" => $this->input->post("emp_code"),
+                        "sl_no" => $i+1,
+                        "board" => $this->input->post("board")[$i],
+                        "passing_yr" => $this->input->post("passing_yr")[$i],
+                        "score" => $this->input->post("score")[$i],
+                        "created_by" =>  $this->session->userdata('loggedin')->user_name,
+                        "created_dt" =>  date('Y-m-d h:i:s')  
+                    );
+                }
+
+                $this->Employee->f_insert_multiple('md_emp_edu', $data_array);
+
+            }
+
+            //Experience
+            unset($data_array);
+            if(!empty($this->input->post('job_title')[0])){
+
+                for($i = 0; $i < count($this->input->post('job_title')); $i++){
+                    $data_array[] = array(
+                        "org_id" => $this->session->userdata('loggedin')->org_id,
+                        "emp_code" => $this->input->post("emp_code"),
+                        "sl_no" => $i+1,
+                        "job_title" => $this->input->post("job_title")[$i],
+                        "from_dt" => $this->input->post("exp_from_date")[$i],
+                        "to_dt" => $this->input->post("exp_to_date")[$i],
+                        "created_by" =>  $this->session->userdata('loggedin')->user_name,
+                        "created_dt" =>  date('Y-m-d h:i:s')
+                    );
+                }
+
+                $this->Employee->f_insert_multiple('md_emp_exp', $data_array);
+
+            }
+
+            //Skill
+            unset($data_array);
+            if(!empty($this->input->post('skill_name')[0])){
+
+                for($i = 0; $i < count($this->input->post('skill_name')); $i++){
+                    $data_array[] = array(
+                        "org_id" => $this->session->userdata('loggedin')->org_id,
+                        "emp_code" => $this->input->post("emp_code"),
+                        "sl_no" => $i+1,
+                        "skill_name" => $this->input->post("skill_name")[$i],
+                        "tot_exp" => $this->input->post("total_exp")[$i],
+                        "created_by" =>  $this->session->userdata('loggedin')->user_name,
+                        "created_dt" =>  date('Y-m-d h:i:s')
+                    );
+                }
+
+                $this->Employee->f_insert_multiple('md_emp_skills', $data_array);
+
+            }
+
+            //Training
+            unset($data_array);
+            if(!empty($this->input->post('training_type')[0])){
+
+                for($i = 0; $i < count($this->input->post('training_type')); $i++){
+                    $data_array[] = array(
+                        "org_id" => $this->session->userdata('loggedin')->org_id,
+                        "emp_code" => $this->input->post("emp_code"),
+                        "sl_no" => $i+1,
+                        "training_type" => $this->input->post("training_type")[$i],
+                        "training_place" => $this->input->post("training_place")[$i],
+                        "from_dt" => $this->input->post("training_from_date")[$i],
+                        "to_dt" => $this->input->post("training_to_date")[$i],
+                        "created_by" =>  $this->session->userdata('loggedin')->user_name,
+                        "created_dt" =>  date('Y-m-d h:i:s')
+                    );
+                }
+
+                $this->Employee->f_insert_multiple('md_emp_training', $data_array);
+
+            }
+
             //User Details
             unset($data_array);
             
@@ -228,7 +313,32 @@ class Employees extends MX_Controller {
         
         //State List
         $data['state']    =   $this->Employee->f_get_particulars("mm_states", array("id", "state"), NULL, 0);
-
+        
+        //Education
+        $data['education'] =  array((object)array(
+            "board"            =>    NULL,
+            "passing_yr"       =>    NULL,
+            "score"            =>    NULL
+        ));
+        //Experience
+        $data['experience'] =  array((object)array(
+            "job_title"       =>    NULL,
+            "exp_from_date"   =>    NULL,
+            "exp_to_date"     =>    NULL
+        ));
+        //Skill
+        $data['skills'] =  array((object)array(
+            "skill_name"  =>    NULL,
+            "total_exp"   =>    NULL,
+        ));
+        //Training
+        $data['training'] =  array((object)array(
+            "training_type"       =>    NULL,
+            "training_place"      =>    NULL,
+            "training_from_date"  =>    NULL,
+            "training_to_date"    =>    NULL
+        ));
+        
         $this->load->view('employee/form', $data);
 
         $this->load->view('footer');
@@ -283,9 +393,103 @@ class Employees extends MX_Controller {
                                   "modified_dt"      =>  date('Y-m-d h:i:s')
     
             );
-    
-            $this->Employee->f_edit('md_employee', $data_array, array("org_id" => $this->session->userdata('loggedin')->org_id, "emp_code" => $this->input->post('emp_code')));
-    
+            
+            $where = array(
+                "org_id" => $this->session->userdata('loggedin')->org_id,
+                "emp_code" => $this->input->post('emp_code')
+            );
+
+            $this->Employee->f_edit('md_employee', $data_array, $where);
+            
+            $this->Employee->f_delete('md_emp_edu', $where);
+            $this->Employee->f_delete('md_emp_exp', $where);
+            $this->Employee->f_delete('md_emp_skills', $where);
+            $this->Employee->f_delete('md_emp_training', $where);
+
+            //Education
+            unset($data_array);
+            if(!empty($this->input->post('board')[0])){
+
+                for($i = 0; $i < count($this->input->post('board')); $i++){
+                    $data_array[] = array(
+                        "org_id" => $this->session->userdata('loggedin')->org_id,
+                        "emp_code" => $this->input->post("emp_code"),
+                        "sl_no" => $i+1,
+                        "board" => $this->input->post("board")[$i],
+                        "passing_yr" => $this->input->post("passing_yr")[$i],
+                        "score" => $this->input->post("score")[$i],
+                        "modified_by" =>  $this->session->userdata('loggedin')->user_name,
+                        "modified_dt" =>  date('Y-m-d h:i:s')  
+                    );
+                }
+
+                $this->Employee->f_insert_multiple('md_emp_edu', $data_array);
+
+            }
+
+            //Experience
+            unset($data_array);
+            if(!empty($this->input->post('job_title')[0])){
+
+                for($i = 0; $i < count($this->input->post('job_title')); $i++){
+                    $data_array[] = array(
+                        "org_id" => $this->session->userdata('loggedin')->org_id,
+                        "emp_code" => $this->input->post("emp_code"),
+                        "sl_no" => $i+1,
+                        "job_title" => $this->input->post("job_title")[$i],
+                        "from_dt" => $this->input->post("exp_from_date")[$i],
+                        "to_dt" => $this->input->post("exp_to_date")[$i],
+                        "modified_by" =>  $this->session->userdata('loggedin')->user_name,
+                        "modified_dt" =>  date('Y-m-d h:i:s')
+                    );
+                }
+
+                $this->Employee->f_insert_multiple('md_emp_exp', $data_array);
+
+            }
+
+            //Skill
+            unset($data_array);
+            if(!empty($this->input->post('skill_name')[0])){
+
+                for($i = 0; $i < count($this->input->post('skill_name')); $i++){
+                    $data_array[] = array(
+                        "org_id" => $this->session->userdata('loggedin')->org_id,
+                        "emp_code" => $this->input->post("emp_code"),
+                        "sl_no" => $i+1,
+                        "skill_name" => $this->input->post("skill_name")[$i],
+                        "tot_exp" => $this->input->post("total_exp")[$i],
+                        "modified_by" =>  $this->session->userdata('loggedin')->user_name,
+                        "modified_dt" =>  date('Y-m-d h:i:s')
+                    );
+                }
+
+                $this->Employee->f_insert_multiple('md_emp_skills', $data_array);
+
+            }
+
+            //Training
+            unset($data_array);
+            if(!empty($this->input->post('training_type')[0])){
+
+                for($i = 0; $i < count($this->input->post('training_type')); $i++){
+                    $data_array[] = array(
+                        "org_id" => $this->session->userdata('loggedin')->org_id,
+                        "emp_code" => $this->input->post("emp_code"),
+                        "sl_no" => $i+1,
+                        "training_type" => $this->input->post("training_type")[$i],
+                        "training_place" => $this->input->post("training_place")[$i],
+                        "from_dt" => $this->input->post("training_from_date")[$i],
+                        "to_dt" => $this->input->post("training_to_date")[$i],
+                        "modified_by" =>  $this->session->userdata('loggedin')->user_name,
+                        "modified_dt" =>  date('Y-m-d h:i:s')
+                    );
+                }
+
+                $this->Employee->f_insert_multiple('md_emp_training', $data_array);
+
+            }
+
             //Setting Messages
             $message    =   array( 
                     
@@ -317,7 +521,7 @@ class Employees extends MX_Controller {
             "branch_name", "acc_no account_no", "pan_no", "pf_no", "esi_no",
             "adhar_no", "passport passport_no", "relation", "emg_name emargency_name", "contact_no imargency_contact_no",
             "contact_address imargency_address", "designation", "emp_catg category", "joining_date joining_dt",
-            "doc_sub document_sub", "emp_type", "termination_date termination_dt",
+            "doc_sub document_sub", "emp_status status", "termination_date termination_dt",
             "emp_file_no file_no"
 
         );
@@ -332,6 +536,40 @@ class Employees extends MX_Controller {
         $data['state']    =   $this->Employee->f_get_particulars("mm_states", array("id", "state"), NULL, 0);
 
         $data['emp'] = $this->Employee->f_get_particulars("md_employee", $select, array("org_id" => $this->session->userdata('loggedin')->org_id, "emp_code" => $this->input->get('emp_no')), 1);
+
+        //Education
+        $education =  $this->Employee->f_get_particulars("md_emp_edu", array("board", "passing_yr", "score"), array("org_id" => $this->session->userdata('loggedin')->org_id, "emp_code" => $this->input->get('emp_no')), 0);
+        //Experience
+        $experience =  $this->Employee->f_get_particulars("md_emp_exp", array("job_title","from_dt exp_from_date","to_dt exp_to_date"), array("org_id" => $this->session->userdata('loggedin')->org_id, "emp_code" => $this->input->get('emp_no')), 0);
+        //Skill
+        $skills =  $this->Employee->f_get_particulars("md_emp_skills", array("skill_name","tot_exp total_exp"), array("org_id" => $this->session->userdata('loggedin')->org_id, "emp_code" => $this->input->get('emp_no')), 0);
+        //Training
+        $training =  $this->Employee->f_get_particulars("md_emp_training", array("training_type","training_place","from_dt training_from_date","to_dt training_to_date"), array("org_id" => $this->session->userdata('loggedin')->org_id, "emp_code" => $this->input->get('emp_no')), 0);
+
+        //Education
+        $data['education'] =  ($education)? $education:array((object)array(
+            "board"            =>    NULL,
+            "passing_yr"       =>    NULL,
+            "score"            =>    NULL
+        ));
+        //Experience
+        $data['experience'] =  ($experience)? $experience:array((object)array(
+            "job_title"       =>    NULL,
+            "exp_from_date"   =>    NULL,
+            "exp_to_date"     =>    NULL
+        ));
+        //Skill
+        $data['skills'] =  ($skills)? $skills:array((object)array(
+            "skill_name"  =>    NULL,
+            "total_exp"   =>    NULL,
+        ));
+        //Training
+        $data['training'] =  ($training)? $training:array((object)array(
+            "training_type"       =>    NULL,
+            "training_place"      =>    NULL,
+            "training_from_date"  =>    NULL,
+            "training_to_date"    =>    NULL
+        ));
 
         $this->load->view('employee/form', $data);
         $this->load->view('footer');

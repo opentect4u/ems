@@ -57,7 +57,7 @@
                                     </td>
                                     <td><?php echo $e_dtls->department; ?></td>
                                     <td><?php echo $e_dtls->designation; ?></td>
-                                    <td><?php echo $e_dtls->personal_email; ?></td>
+                                    <td><?php echo $e_dtls->prof_email; ?></td>
                                     <td><a href="javascript:void(0)" class="status" id="<?php echo $e_dtls->emp_code; ?>" val="<?php echo $e_dtls->emp_status; ?>">
 
                                             <span class="badge badge-<?php echo ($e_dtls->emp_status == "A")? 'success' : 'danger'; ?>"><?php echo ($e_dtls->emp_status == "A")? 'Active':'Inactive'; ?></span> 
