@@ -309,10 +309,10 @@ class Employees extends MX_Controller {
         $data['department']    =   $this->Employee->f_get_particulars("md_departments", array("sl_no", "dept_name"), NULL, 0);
         
         //Country List
-        $data['country']    =   $this->Employee->f_get_particulars("mm_countries", array("id", "country_name"), NULL, 0);
+        $data['country']    =   $this->Employee->f_get_particulars("md_countries", array("id", "country_name"), NULL, 0);
         
         //State List
-        $data['state']    =   $this->Employee->f_get_particulars("mm_states", array("id", "state"), NULL, 0);
+        $data['state']    =   $this->Employee->f_get_particulars("md_states", array("id", "state"), NULL, 0);
         
         //Education
         $data['education'] =  array((object)array(
@@ -530,10 +530,10 @@ class Employees extends MX_Controller {
         $data['department']    =   $this->Employee->f_get_particulars("md_departments", array("sl_no", "dept_name"), NULL, 0);
         
         //Country List
-        $data['country']    =   $this->Employee->f_get_particulars("mm_countries", array("id", "country_name"), NULL, 0);
+        $data['country']    =   $this->Employee->f_get_particulars("md_countries", array("id", "country_name"), NULL, 0);
         
         //State List
-        $data['state']    =   $this->Employee->f_get_particulars("mm_states", array("id", "state"), NULL, 0);
+        $data['state']    =   $this->Employee->f_get_particulars("md_states", array("id", "state"), NULL, 0);
 
         $data['emp'] = $this->Employee->f_get_particulars("md_employee", $select, array("org_id" => $this->session->userdata('loggedin')->org_id, "emp_code" => $this->input->get('emp_no')), 1);
 

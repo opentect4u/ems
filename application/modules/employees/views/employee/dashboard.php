@@ -84,12 +84,7 @@
                                     }
 
                                 }
-
-                                else {
-
-                                    echo "<tr><td colspan='10' style='text-align: center;'>No data Found</td></tr>";
-
-                                }
+                                
                             ?>
                         </tbody>
                     </table>
@@ -98,53 +93,6 @@
         </div>
     </div>
 </div>
-    
-    <script>
-    
-        $(document).ready(function(){
-
-            $('#demo-foo-addrow').DataTable({
-                "paging": false
-            });
-            
-
-            $('#add').click(function(){
-
-                $.get(
-                    
-                    "<?php echo site_url('employee/add') ?>"
-                    
-                    ).done(function(data){
-
-                        $('#modal').html(data);
-                        $('#add-contact').modal('show');
-
-                });
-
-            });
-
-            $('.edit').click(function(){
-
-                $.get(
-                    
-                    "<?php echo site_url('employee/edit') ?>",
-
-                    {
-                        emp_no: $(this).attr('id')
-                    }
-                    
-                    ).done(function(data){
-
-                        $('#modal').html(data);
-                        $('#add-contact').modal('show');
-
-                });
-
-            });
-
-        });
-
-    </script>
             
     <script>
    

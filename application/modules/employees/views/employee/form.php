@@ -13,12 +13,13 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group row">
-                                <label class="col-sm-3 col-form-label">Emp Code</label>
+                                <label class="col-sm-3 col-form-label">Emp Code <span class="required">*</span></label>
                                 <div class="col-sm-9">
                                     <input type="text" 
                                         class="form-control"
                                         name="emp_code"
                                         value="<?php echo $emp->emp_code; ?>"
+                                        required
                                         <?php echo ($url == 'edit')? 'readonly': ''; ?>
                                         />
                                 </div>
@@ -26,11 +27,12 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group row">
-                                <label class="col-sm-3 col-form-label">Name</label>
+                                <label class="col-sm-3 col-form-label">Name <span class="required">*</span></label>
                                 <div class="col-sm-9">
                                     <input type="text" 
                                         class="form-control"
                                         name="emp_name"
+                                        required
                                         value="<?php echo $emp->emp_name; ?>"
                                         />
                                 </div>
@@ -55,7 +57,6 @@
                                 <label class="col-sm-3 col-form-label">Marital Status</label>
                                 <div class="col-sm-9">
                                     <select name="marital_status" class="form-control">
-                                        <option value="">Select</option>
                                         <option value="M" <?php echo ($emp->marital_status == 'M')? 'selected':''; ?>>Married</option>
                                         <option value="U" <?php echo ($emp->marital_status == 'U')? 'selected':''; ?>>Unmarried</option>
                                     </select>
@@ -240,8 +241,6 @@
                                     <select class="form-control"
                                             name="blood_grp"
                                         >
-
-                                            <option value="">Select</option>
                                     
                                             <option value="A+" <?php echo ($emp->blood_grp == 'A+')? 'selected':''; ?> >A+</option>
                                             <option value="A-" <?php echo ($emp->blood_grp == 'A-')? 'selected':''; ?> >A-</option>
