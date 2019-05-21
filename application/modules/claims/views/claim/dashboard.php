@@ -25,7 +25,8 @@
                                 <th>Amount</th>
                                 <th>Narration</th>
                                 <th>Status</th>
-                                <th>Action</th>
+                                <th>Edit</th>
+                                <th>Delete</th>
 
                             </tr>
 
@@ -49,7 +50,7 @@
                                     <td><?php echo $list->narration; ?></td>
                                     <td><a href="javascript:void(0)" class="status">
 
-                                            <span class="badge badge-<?php echo ($list->approval_status == 0)? 'success' : 'danger'; ?>"><?php echo ($list->approval_status == 0)? 'Unapproved':''; ?></span> 
+                                            <span class="badge badge-<?php echo ($list->approval_status == 0)? 'danger' : ''; ?>"><?php echo ($list->approval_status == 0)? 'Unapproved':''; ?></span> 
 
                                         </a>
                                     </td>
@@ -61,6 +62,19 @@
                                         >
 
                                             <i class="fas fa-pencil-alt text-inverse m-r-10" style="color: #007bff"></i>
+                                            
+                                        </a>
+                                        
+                                    </td>
+                                    <td>
+                                    
+                                        <a href="javascript: void(0);"
+                                           class="delete"
+                                           title="Delete"
+                                           id="<?php echo $list->claim_cd; ?>"
+                                        >
+
+                                            <i class="fas fa-trash-alt text-inverse m-r-10" style="color: #e70050"></i>
                                             
                                         </a>
                                         
@@ -94,6 +108,26 @@
             $('.alert').html('<?php echo $this->session->flashdata('msg')['message']; ?> <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">×</span> </button>').show();
 
         <?php } ?>
+
+        $(".delete").click(function(){
+            
+            if(confirm('Are you sure?')){
+                
+                $.ajax({
+                    url: "<?php echo site_url('claim/delete');?>",
+                    data: {
+                        claim_cd: $(this).attr('id')
+                    },
+                    type: "POST"
+                });
+
+                $('.delete').parents('tr:eq('+ $(".delete").index(this) +')').remove();
+                $('.alert').attr('class', 'col-md-3 alert alert-success');
+                $('.alert').html('Successfully Deleted <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">×</span> </button>').show();
+
+            }
+            
+        });
 
     });
     

@@ -74,7 +74,7 @@ class Claims extends MX_Controller {
 
             //Claim Details
             $data_array = array ( "org_id" => $this->session->userdata('loggedin')->org_id,
-                                  "claim_cd" => ($max_claim_cd)? $max_claim_cd->claim_cd : date('Y').'1',
+                                  "claim_cd" => (isset($max_claim_cd->claim_cd))? $max_claim_cd->claim_cd : date('Y').'1',
                                   "emp_code" => $this->session->userdata('loggedin')->user_id,         
                                   "claim_dt" => date('Y-m-d'),          
                                   "purpose" => $this->input->post("purpose"),   
@@ -95,7 +95,7 @@ class Claims extends MX_Controller {
                 for($i = 0; $i < count($this->input->post('claim_head')); $i++){
                     $data_array[] = array(
                         "org_id" => $this->session->userdata('loggedin')->org_id,
-                        "claim_cd" => ($max_claim_cd)? $max_claim_cd->claim_cd : date('Y').'1',
+                        "claim_cd" => (isset($max_claim_cd->claim_cd))? $max_claim_cd->claim_cd : date('Y').'1',
                         "emp_code" => $this->session->userdata('loggedin')->user_id,
                         "claim_hd" => $this->input->post("claim_head")[$i],
                         "remarks" => $this->input->post("remarks")[$i],
@@ -128,7 +128,7 @@ class Claims extends MX_Controller {
 
         //Claim List
         $data['claim']    =   (object) array(
-            "claim_code" => NULL,
+            "claim_cd" => NULL,
             "from_dt"    => NULL,
             "to_dt"      => NULL,
             "narration"  => NULL,
@@ -180,7 +180,8 @@ class Claims extends MX_Controller {
             $this->Claim->f_edit('td_claim', $data_array, $where);
             
             $this->Claim->f_delete('td_claim_trans', $where);
-            //Education
+            
+            //Claim Trans
             unset($data_array);
             if(!empty($this->input->post('claim_head')[0])){
 
@@ -232,6 +233,21 @@ class Claims extends MX_Controller {
 
         $this->load->view('claim/form', $data);
         $this->load->view('footer');
+    }
+
+    //Claim Delete
+    public function f_delete(){
+        
+        $where = array(
+            "org_id" => $this->session->userdata('loggedin')->org_id,
+            "emp_code" => $this->session->userdata('loggedin')->user_id,
+            "claim_cd" =>  $this->input->post('claim_cd')
+        );
+
+        $this->Claim->f_delete('td_claim', $where);
+        $this->Claim->f_delete('td_claim_trans', $where);
+        echo $this->input->post('claim_cd');
+        exit;
     }
 
 }
