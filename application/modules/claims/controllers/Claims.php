@@ -41,7 +41,7 @@ class Claims extends MX_Controller {
         $select = array(
             
             "claim_cd", "claim_dt", "amount",
-            "narration", "approval_status"
+            "narration", "rejection_status"
                     
         );
         
@@ -173,6 +173,7 @@ class Claims extends MX_Controller {
                                   "to_dt" => $this->input->post("to_dt"),        
                                   "narration" => $this->input->post("narration"),          
                                   "amount" => $this->input->post("tot_amount"),            
+                                  "rejection_status" => 0,            
                                   "modified_by" =>  $this->session->userdata('loggedin')->user_name,
                                   "modified_dt" =>  date('Y-m-d h:i:s')
                                 );
@@ -188,7 +189,7 @@ class Claims extends MX_Controller {
                 for($i = 0; $i < count($this->input->post('claim_head')); $i++){
                     $data_array[] = array(
                         "org_id" => $this->session->userdata('loggedin')->org_id,
-                        "claim_cd" => ($max_claim_cd)? $max_claim_cd->claim_cd : date('Y').'1',
+                        "claim_cd" => $this->input->post('claim_code'),
                         "emp_code" => $this->session->userdata('loggedin')->user_id,
                         "claim_hd" => $this->input->post("claim_head")[$i],
                         "remarks" => $this->input->post("remarks")[$i],

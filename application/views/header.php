@@ -188,6 +188,7 @@
                         <div class="submenu">
                             <ul class="submenu-item">
                                 <li class="nav-item"><a class="nav-link" href="<?php echo site_url('claim'); ?>">Add & Edit Claim</a></li>
+                                <li class="nav-item"><a class="nav-link" href="<?php echo site_url('claim/approve'); ?>">Approve & Reject Claim</a></li>
                             </ul>
                         </div>
                     </li>

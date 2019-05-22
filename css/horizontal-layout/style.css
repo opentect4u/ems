@@ -28340,4 +28340,8 @@ div.tagsinput span.tag a {
   color: red;
 }
 
+.noborder{
+  height: calc(2.25rem + 2px); padding: 20px; border-color: transparent;box-shadow: none; border: 0;
+}
+
 /*# sourceMappingURL=../maps/horizontal-layout/style.css.map */

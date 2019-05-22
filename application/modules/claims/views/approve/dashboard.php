@@ -2,15 +2,10 @@
 <div class="card">
     <div class="card-body">
         <!-- <div class="row"> -->
-            <h4 class="card-title row">
-                <div class="col-md-2">
-                    <a class="btn btn-info btn-rounded"
-                        href="<?php echo site_url('claim/add'); ?>" 
-                    >Add Claim</a>
-                </div>
-                <div class="col-md-7"></div>
-                <div class="col-md-3 alert alert-<?php echo $this->session->flashdata('msg')['status']; ?>"></div>
-            </h4>
+        <h4 class="card-title row">
+            <div class="col-md-9"></div>
+            <div class="col-md-3 alert alert-<?php echo $this->session->flashdata('msg')['status']; ?>"></div>
+        </h4>
         <!-- </div> -->
         <div class="row">
             <div class="col-12">
@@ -20,13 +15,12 @@
 
                             <tr>
 
-                                <th>Claim ID</th>
+                                <th>Calim ID</th>
                                 <th>Date</th>
                                 <th>Amount</th>
                                 <th>Narration</th>
                                 <th>Status</th>
-                                <th>Edit</th>
-                                <th>Delete</th>
+                                <th>View</th>
 
                             </tr>
 
@@ -47,34 +41,22 @@
                                     <td><?php echo $list->claim_cd; ?></td>
                                     <td><?php echo date('d-m-Y', strtotime($list->claim_dt)); ?></td>
                                     <td><?php echo $list->amount; ?></td>
-                                    <td><?php echo $list->narration; ?></td>
+                                    <td class="narration"><?php echo $list->narration; ?></td>
                                     <td><a href="javascript:void(0)" class="status">
 
-                                            <span class="badge badge-danger"><?php echo ($list->rejection_status == 1)? 'Rejected':'Unapproved'; ?></span> 
-
+                                            <span class="badge badge-<?php echo ($list->approval_status == 0)? 'danger' : ''; ?>"><?php echo ($list->approval_status == 0)? 'Unapproved':''; ?></span> 
+         
                                         </a>
-                                    </td>
-                                    <td>
-                                    
-                                        <a href="<?php echo site_url('claim/edit?claim_cd='.$list->claim_cd); ?>"
-                                           class="edit"
-                                           title="Edit"
-                                        >
-
-                                            <i class="fas fa-pencil-alt text-inverse m-r-10" style="color: #007bff"></i>
-                                            
-                                        </a>
-                                        
                                     </td>
                                     <td>
                                     
                                         <a href="javascript: void(0);"
-                                           class="delete"
-                                           title="Delete"
+                                           class="view"
                                            id="<?php echo $list->claim_cd; ?>"
+                                           title="View"
                                         >
 
-                                            <i class="fas fa-trash-alt text-inverse m-r-10" style="color: #e70050"></i>
+                                            <i class="fas fa-eye text-inverse m-r-10" style="color: #007bff"></i>
                                             
                                         </a>
                                         
@@ -96,6 +78,20 @@
         </div>
     </div>
 </div>
+
+<div id="add-contact" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                            
+    <div class="modal-dialog modal-lg">
+
+        <div class="modal-content">
+            
+                <div id="modal"></div>
+            
+        </div>
+
+    </div>
+
+</div>
         
 <script>
 
@@ -109,24 +105,23 @@
 
         <?php } ?>
 
-        $(".delete").click(function(){
-            
-            if(confirm('Are you sure?')){
+        $('.view').click(function(){
+
+            $.get(
                 
-                $.ajax({
-                    url: "<?php echo site_url('claim/delete');?>",
-                    data: {
-                        claim_cd: $(this).attr('id')
-                    },
-                    type: "POST"
-                });
+                "<?php echo site_url('claim/approve/form') ?>",
 
-                $('.delete').parents('tr:eq('+ $(".delete").index(this) +')').remove();
-                $('.alert').attr('class', 'col-md-3 alert alert-success');
-                $('.alert').html('Successfully Deleted <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">×</span> </button>').show();
+                {
+                    claim_cd: $(this).attr('id')
+                }
+                
+                ).done(function(data){
 
-            }
-            
+                    $('#modal').html(data);
+                    $('#add-contact').modal('show');
+
+            });
+
         });
 
     });
