@@ -93,10 +93,10 @@ class Approves extends MX_Controller {
                 
                 $where = array(
                     "org_id" => $this->session->userdata('loggedin')->org_id,
-                    "emp_code = '".$this->input->post('emp_code')."' GROUP BY emp_code, balance_amt" => NULL
+                    "emp_code = '".$this->input->post('emp_code')."' GROUP BY emp_code, balance_amt ORDER BY balance_dt DESC LIMIT 0,1" => NULL
                 );
                 
-                $max_balance_amt = $this->Claim->f_get_particulars('td_balance_amt', array("emp_code", "MAX(balance_dt)", "(ifnull(balance_amt, 0)) balance_amt"), $where, 1);
+                $max_balance_amt = $this->Claim->f_get_particulars('td_balance_amt', array("emp_code", "MAX(balance_dt) balance_dt", "(ifnull(balance_amt, 0)) balance_amt"), $where, 1);
                 
                 if(!isset($max_balance_amt->balance_amt)){
                     $max_balance_amt = (object) array(

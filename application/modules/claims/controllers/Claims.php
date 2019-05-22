@@ -142,7 +142,7 @@ class Claims extends MX_Controller {
         //Claim Head
         $data['claim_head'] =   $this->Claim->f_get_particulars("md_claim_head", NULL, array('org_id' => $this->session->userdata('loggedin')->org_id), 0);
         
-        //Training
+        //Trans
         $data['claim_trans'] =  array((object)array(
             "claim_hd"    => NULL,
             "remarks"    => NULL,
@@ -229,7 +229,7 @@ class Claims extends MX_Controller {
         //Claim Head
         $data['claim_head'] =   $this->Claim->f_get_particulars("md_claim_head", NULL, array('org_id' => $this->session->userdata('loggedin')->org_id), 0);
         
-        //Training
+        //Trans
         $data['claim_trans'] =  $this->Claim->f_get_particulars("td_claim_trans", NULL, array('org_id' => $this->session->userdata('loggedin')->org_id, 'claim_cd' => $this->input->get('claim_cd'), $this->session->userdata('loggedin')->user_id), 0);
 
         $this->load->view('claim/form', $data);
