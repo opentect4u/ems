@@ -55,6 +55,7 @@ $route['translate_uri_dashes'] = FALSE;
 $route['(:any)'] = '$1s';
 $route['(:any)/approve'] = '$1s/approves';
 $route['(:any)/payment'] = '$1s/payments';
+$route['(:any)/report'] = '$1s/reports';
 $route['(:any)/(:any)'] = '$1s/f_$2';
 
 $route['(:any)/approve/(:any)'] = '$1s/approves/f_$2';

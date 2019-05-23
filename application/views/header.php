@@ -180,17 +180,49 @@
                             </ul>
                         </div>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item mega-menu">
                         <a href="#" class="nav-link">
-                            <i class="mdi mdi-file-document-box-outline menu-icon"></i>
+                            <i class="mdi mdi-codepen menu-icon"></i>
                             <span class="menu-title">Claim</span>
                             <i class="menu-arrow"></i></a>
                         <div class="submenu">
-                            <ul class="submenu-item">
-                                <li class="nav-item"><a class="nav-link" href="<?php echo site_url('claim'); ?>">Add & Edit Claim</a></li>
-                                <li class="nav-item"><a class="nav-link" href="<?php echo site_url('claim/approve'); ?>">Approve & Reject Claim</a></li>
-                                <li class="nav-item"><a class="nav-link" href="<?php echo site_url('claim/payment'); ?>">Add & Approve Payment</a></li>
-                            </ul>
+                            <div class="col-group-wrapper row">
+                            <div class="col-group col-md-6">
+                                <p class="category-heading">User</p>
+                                <ul class="submenu-item">
+                                    <li class="nav-item"><a class="nav-link" href="<?php echo site_url('claim'); ?>">Add & Edit Claim</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="<?php echo site_url('claim/approve'); ?>">Approve & Reject Claim</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="<?php echo site_url('claim/payment'); ?>">Add & Approve Payment</a></li>
+                                </ul>
+                            </div>
+                            <div class="col-group col-md-6">
+                                <p class="category-heading">Reports</p>
+                                <ul class="submenu-item">
+                                    <li class="nav-item"><a class="nav-link" href="<?php echo site_url('claim/report/details'); ?>">Claim Details</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="<?php echo site_url('claim/report/ledger'); ?>">Personal Ledger</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="<?php echo site_url('claim/report/payment'); ?>">Payment Details</a></li>
+                                </ul>
+                            </div>
+                            <!-- <div class="col-group col-md-3">
+                                <p class="category-heading">Admin</p>
+                                <ul class="submenu-item">
+                                <li class="nav-item"><a class="nav-link" href="../../pages/samples/invoice.html">Invoice</a></li>
+                                <li class="nav-item"><a class="nav-link" href="../../pages/samples/pricing-table.html">Pricing Table</a></li>
+                                <li class="nav-item"><a class="nav-link" href="../../pages/samples/orders.html">Orders</a></li>
+                                </ul>
+                            </div>
+                            <div class="col-group col-md-3">
+                                <p class="category-heading">Reports</p>
+                                <ul class="submenu-item">
+                                <li class="nav-item"><a class="nav-link" href="../../pages/samples/search-results.html">Search Results</a></li>
+                                <li class="nav-item"><a class="nav-link" href="../../pages/samples/profile.html">Profile</a></li>
+                                <li class="nav-item"><a class="nav-link" href="../../pages/samples/timeline.html">Timeline</a></li>
+                                <li class="nav-item"><a class="nav-link" href="../../pages/samples/news-grid.html">News grid</a></li>
+                                <li class="nav-item"><a class="nav-link" href="../../pages/samples/portfolio.html">Portfolio</a></li>
+                                <li class="nav-item"><a class="nav-link" href="../../pages/samples/faq.html">FAQ</a></li>
+                                </ul>
+                            </div>
+                            </div> -->
                         </div>
                     </li>
                     <li class="nav-item">

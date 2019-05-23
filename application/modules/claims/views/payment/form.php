@@ -20,7 +20,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group row">
-                                <label class="col-sm-3 col-form-label">Date <span class="required">*</span></label>
+                                <label class="col-sm-3 col-form-label">Date</label>
                                 <div class="col-sm-9">
                                     <input type="date" 
                                            class="form-control"
@@ -106,7 +106,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group row">
-                                <label class="col-sm-3 col-form-label">Bank Name</label>
+                                <label class="col-sm-3 col-form-label">Bank Name <span class="required">*</span></label>
                                 <div class="col-sm-9">
                                     <select class="form-control" name="bank" required>
                                     <?php
@@ -124,7 +124,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group row">
-                                <label class="col-sm-3 col-form-label">Paid Amount</label>
+                                <label class="col-sm-3 col-form-label">Paid Amount <span class="required">*</span></label>
                                 <div class="col-sm-9">
                                     <input type="text"
                                            class="form-control"
