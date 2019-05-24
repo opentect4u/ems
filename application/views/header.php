@@ -201,6 +201,11 @@
                                     <li class="nav-item"><a class="nav-link" href="<?php echo site_url('claim/report/details'); ?>">Claim Details</a></li>
                                     <li class="nav-item"><a class="nav-link" href="<?php echo site_url('claim/report/ledger'); ?>">Personal Ledger</a></li>
                                     <li class="nav-item"><a class="nav-link" href="<?php echo site_url('claim/report/payment'); ?>">Payment Details</a></li>
+
+                                    <li class="nav-item"><a class="nav-link" href="<?php echo site_url('claim/report/closings'); ?>">Employees Blanaces</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="<?php echo site_url('claim/report/admindetails'); ?>">Claim Admin Details</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="<?php echo site_url('claim/report/adminledger'); ?>">Personal Admin Ledger</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="<?php echo site_url('claim/report/adminpayment'); ?>">Payment Admin Details</a></li>
                                 </ul>
                             </div>
                             <!-- <div class="col-group col-md-3">
