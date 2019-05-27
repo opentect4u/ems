@@ -93,7 +93,7 @@ class Payslips extends MX_Controller {
         $this->load->view('footer', $script);
 
     }
-	
+    
 }
     
 ?>

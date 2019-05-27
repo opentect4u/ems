@@ -62,19 +62,9 @@
 .t2 th { border: 1px solid black; background-color: #c0c0c0; }
 .right_algn { text-align: right; }
 </style>
-<div class="row page-titles">
-    <div class="col-md-8 col-8 align-self-center">
-        <h3 class="text-themecolor m-b-0 m-t-0">Payroll</h3>
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
-            <li class="breadcrumb-item active">Payslip</li>
-        </ol>
-    </div>
-    <div class="col-md-4 col-12 align-self-center">
-    </div>
-</div>
 
 <div class="row">
+
     <div class="col-12">
 
         <div class="card">

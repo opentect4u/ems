@@ -1,24 +1,8 @@
-<div class="row page-titles">
 
-    <div class="col-md-8 col-12 align-self-center">
-
-        <h3 class="text-themecolor m-b-0 m-t-0">Payroll</h3>
-
-        <ol class="breadcrumb">
-
-            <li class="breadcrumb-item"><a href="javascript:void(0)">Payroll</a></li>
-
-            <li class="breadcrumb-item active">Payslip Generation</li>
-
-        </ol>
-
-    </div>
 
     <div class="col-md-4 col-12 align-self-center">
         <div id="alert" class="alert alert-<?php echo $this->session->flashdata('msg')['status']; ?>"></div>
     </div>
-
-</div>
 
 <div class="row">
 

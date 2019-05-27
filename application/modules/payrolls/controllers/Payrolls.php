@@ -233,7 +233,120 @@ class Payrolls extends MX_Controller {
         }
 
     }
-	
+    
+    public function f_heads(){
+
+        $where = array(
+            "org_id" => $this->session->userdata('loggedin')->org_id,
+        );
+        $data['heads'] = $this->Payroll->f_get_particulars('md_heads', NULL, $where, 0);
+        $this->load->view('heads/dashboard', $data);
+        $this->load->view('footer');
+    }
+
+    //Head Add
+    public function f_head_add(){
+
+        if($_SERVER['REQUEST_METHOD'] == 'POST'){
+
+            $where = array(
+                
+                "org_id" => $this->session->userdata('loggedin')->org_id
+                
+            );
+
+            $max_cd = $this->Payroll->f_get_particulars('md_heads', array('(MAX(sl_no) + 1) sl_no'), $where, 1);
+
+            $data_array = array(
+                "org_id" => $this->session->userdata('loggedin')->org_id,
+                "sl_no" => (isset($max_cd->sl_no))? $max_cd->sl_no : '1',
+                "head_desc" => $this->input->post('head_desc'),
+                "flag" => $this->input->post('flag'),
+                "created_by" =>  $this->session->userdata('loggedin')->user_name,
+                "created_dt" =>  date('Y-m-d h:i:s')
+            );
+
+            $this->Payroll->f_insert('md_heads', $data_array);
+
+            //Setting Messages
+            $message    =   array( 
+                    
+                'message'   => 'Successfully added!',
+                
+                'status'    => 'success'
+                
+            );
+
+            $this->session->set_flashdata('msg', $message);
+    
+            redirect('payroll/heads');
+
+        }
+        else {
+            
+            //Dependencies
+            $data['url']    = 'add';
+            $data['title']  = 'Add Head';
+            $data['head'] = (object) array(
+                "sl_no" => NULL,
+                "head_desc" => NULL,
+                "flag" => NULL
+            );
+            $this->load->view('heads/form', $data);
+
+        }
+    }
+
+    //Head Edit
+    public function f_head_edit(){
+        
+        if($_SERVER['REQUEST_METHOD'] == "POST"){
+
+            $where = array(                
+                "org_id" => $this->session->userdata('loggedin')->org_id,
+                "sl_no" => $this->input->post('sl_no')
+            );
+
+            //Payroll Details
+            $data_array = array ( 
+                                  "head_desc" => $this->input->post('head_desc'),
+                                  "flag" => $this->input->post('flag'),           
+                                  "modified_by" =>  $this->session->userdata('loggedin')->user_name,
+                                  "modified_dt" =>  date('Y-m-d h:i:s')
+                                );
+            
+            $this->Payroll->f_edit('md_heads', $data_array, $where);
+
+            //Setting Messages
+            $message    =   array( 
+                    
+                'message'   => 'Successfully updated!',
+                
+                'status'    => 'success'
+                
+            );
+
+            $this->session->set_flashdata('msg', $message);
+    
+            redirect('payroll/heads');
+
+        }
+
+        //Dependencies
+        $data['url']    = 'edit';
+        $data['title']  = 'Edit Head';
+        
+        $where = array(                
+            "org_id" => $this->session->userdata('loggedin')->org_id,
+            "sl_no" => $this->input->get('sl_no')
+        );
+
+        //Payroll Head
+        $data['head'] = $this->Payroll->f_get_particulars("md_heads", NULL, $where, 1);
+        
+        $this->load->view('heads/form', $data);
+        $this->load->view('footer');
+    }
 }
     
 ?>

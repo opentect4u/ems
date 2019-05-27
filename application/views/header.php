@@ -241,15 +241,21 @@
                             </ul>
                         </div>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item mega-menu">
                         <a href="#" class="nav-link">
-                            <i class="mdi mdi-file-document-box-outline menu-icon"></i>
+                            <i class="mdi mdi-codepen menu-icon"></i>
                             <span class="menu-title">Payroll</span>
                             <i class="menu-arrow"></i></a>
                         <div class="submenu">
-                            <ul class="submenu-item">
-                                <li class="nav-item"><a class="nav-link" href="pages/forms/basic_elements.html">Employee Management</a></li>
-                            </ul>
+                            <div class="col-group-wrapper row">
+                            <div class="col-group col-md-12">
+                                <p class="category-heading">User</p>
+                                <ul class="submenu-item">
+                                    <li class="nav-item"><a class="nav-link" href="<?php echo site_url('payroll/heads'); ?>">Payroll Heads</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="<?php echo site_url('payroll/statement'); ?>">Earnings & Deductions</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="<?php echo site_url('payroll/payslip'); ?>">Payslips</a></li>
+                                </ul>
+                            </div>
                         </div>
                     </li>
                     <li class="nav-item">
