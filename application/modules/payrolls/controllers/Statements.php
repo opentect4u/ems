@@ -37,43 +37,29 @@ class Statements extends MX_Controller {
         
     }
 
-
-    //Latest unapproved salary statement of employees'
     public function index(){
 
-        $script['script'] = [
-        
-            '/assets/plugins/footable/js/footable.all.min.js',
-
-            '/assets/plugins/bootstrap-select/bootstrap-select.min.js',
-
-            'js/footable-init.js',
-
-            '/assets/plugins/datatables/jquery.dataTables.min.js'
-        
-        ];
-        
-        //Employee List
+        /* //Employee List
         $select = array(
             
-                    "m.emp_code", "m.emp_name", "d.dept_name department",
-                    "m.designation", "m.img_path"
+            "m.emp_code", "m.emp_name", "d.dept_name department",
+            "m.designation", "m.img_path"
                     
         );
         
         $where  = array(
 
-            "m.emp_code = t.emp_code"   => NULL,
-            "m.department = d.sl_no"    => NULL,
+            "m.emp_code = t.emp_code" => NULL,
+            "m.department = d.sl_no"  => NULL,
             "m.emp_status" => 'A'
                     
         ); 
 
-        $data['emp_list'] = $this->Payroll->f_get_particulars('md_employee m, md_departments d, td_pay_statement t', $select, $where, 0);
-    
-        $this->load->view("salary/dashboard", $data);
+        $data['emp_list'] = $this->Payroll->f_get_particulars('md_employee', $select, $where, 0);
+     */
+        $this->load->view("statement/dashboard");
 
-        $this->load->view('footer', $script);
+        $this->load->view('footer');
 
     }
 
@@ -168,67 +154,31 @@ class Statements extends MX_Controller {
             //Dependencies
             $data['url']    = 'add';
 
-            //Employee List
-            $select = array(
-                
-                        "m.emp_code", "m.emp_name", "d.dept_name department"
-            );
-
-            $where  = array(
-
-                    "m.department = d.sl_no"    => NULL,
-                    "m.emp_status" => 'A'
-
-            ); 
-
-            $data['employee_dtls']    =   $this->Payroll->f_get_particulars("md_employee m, md_departments d", $select, $where, 0);
-
+            //Employees
+            $data['employee'] = $this->Payroll->f_get_particulars("md_employee", array("emp_code", "emp_name"), array('org_id' => $this->session->userdata('loggedin')->org_id), 0);
+            
             //Setting Null values
-            $data['statemets']  = (object) array (
-
-                "emp_code"         =>  null,
-                "basic"            =>  null,
-                "da"               =>  null,
-                "hra"              =>  null,
-                "conveyance"       =>  null,
-                "incentives"       =>  null,
-                "others"           =>  null,
-                "tot_earnings"     =>  null,
-                "pf"               =>  null,
-                "esi"              =>  null,
-                "p_tax"            =>  null,
-                "tds"              =>  null,
-                "lwf"              =>  null,
-                "accommodation"    =>  null,
-                "advance"          =>  null,
-                "laundry"          =>  null,
-                "misc"             =>  null,
-                "tot_deduction"    =>  null,
-                "net_amount"       =>  null,
-                "bank_name"        =>  null,
-                "bank_ac_no"       =>  null,
-                "location"         =>  null,
-                "pf_ac_no"         =>  null,
-                "esi_no"           =>  null,
-                "pan_no"           =>  null,
-                "base_or_eligibitity"=>null,
-                "ifsc"             =>null
-                
+            $data['emp']  = (object) array (
+                "emp_code" =>  null,
+                "amount" => NULL
             );
 
-            $this->load->view("salary/form", $data);
+            //Default Statements
+            $data['statement'] =  array((object)array(
+                "sl_no"  => NULL,
+                "amount" => NULL
+            ));
 
-            $script['script'] = [
+            //Heads
+            $where = array(
+                "org_id" => $this->session->userdata('loggedin')->org_id,
+            );
 
-                "/assets/plugins/moment/moment.js",
-    
-                "/assets/plugins/daterangepicker/daterangepicker.js",
+            $data['heads'] = $this->Payroll->f_get_particulars('md_heads', NULL, $where, 0);
 
-                "/js/moduleValidations.js"
-    
-            ];
+            $this->load->view("statement/form", $data);
 
-            $this->load->view('footer', $script);
+            $this->load->view('footer');
 
         }
 
@@ -352,7 +302,7 @@ class Statements extends MX_Controller {
             
             $this->session->set_userdata('valid', $where);
 
-            $this->load->view("salary/form", $data);
+            $this->load->view("statement/form", $data);
 
             $script['script'] = [
 
