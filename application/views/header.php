@@ -253,6 +253,7 @@
                                 <ul class="submenu-item">
                                     <li class="nav-item"><a class="nav-link" href="<?php echo site_url('payroll/heads'); ?>">Payroll Heads</a></li>
                                     <li class="nav-item"><a class="nav-link" href="<?php echo site_url('payroll/statement'); ?>">Earnings & Deductions</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="<?php echo site_url('payroll/payslipgeneration'); ?>">Payslips Generation</a></li>
                                     <li class="nav-item"><a class="nav-link" href="<?php echo site_url('payroll/payslip'); ?>">Payslips</a></li>
                                 </ul>
                             </div>

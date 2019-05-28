@@ -73,7 +73,7 @@
 
             <div class="card-body"> 
             
-                <h2 class="card-title" style="margin-left: 42%; display: inline;"><u>Salary Slip</u> 
+                <!-- <h2 class="card-title" style="margin-left: 42%; display: inline;"><u>Salary Slip</u> 
                 <span style="margin-left: 16%; display: inline;">
                     <img src="<?php echo base_url('/assets/images/logo1.png'); ?>" alt="homepage" class="dark-logo" height="30px" />    
                     <img src="<?php echo base_url('/assets/images/logo2.png'); ?>" class="light-logo" alt="homepage" height="30px" />
@@ -82,7 +82,7 @@
                 <h4 class="card-title" style="text-align: center;">INDUS VALLEY AYURVEDIC CENTRE PVT LTD</h4>
                 <h4 class="card-title" style="text-align: center;">Tel: +91-821-2473437/263/266, Fax: +91-821-2473590</h4>
                 <h4 class="card-title" style="text-align: center;">LALITHADRIPURA, MYSORE 570 028</h4>
-
+ -->
                 <h6 class="card-subtitle"></h6>
 
                 <div class="table-responsive">
@@ -182,48 +182,48 @@
                         <tr>
                             <td>BASIC</td>
                             <td class="right_algn">:</td>
-                            <td class="right_algn"><?php echo $pay_list->basic; ?></td>
+                            <td class="right_algn"><?php echo $earnings->basic; ?></td>
                             <td></td>
                             <td>P.F</td>
                             <td class="right_algn">:</td>
-                            <td class="right_algn"><?php echo $pay_list->pf; ?></td>
+                            <td class="right_algn"><?php echo $earnings->pf; ?></td>
                         </tr>
 
                         <tr>
                             <td>DA</td>
                             <td class="right_algn">:</td>
-                            <td class="right_algn"><?php echo $pay_list->da; ?></td>
+                            <td class="right_algn"><?php echo $earnings->da; ?></td>
                             <td></td>
                             <td>ESI</td>
                             <td class="right_algn">:</td>
-                            <td class="right_algn"><?php echo $pay_list->esi; ?></td>
+                            <td class="right_algn"><?php echo $earnings->esi; ?></td>
                         </tr>
 
                         <tr>
                             <td>HRA</td>
                             <td class="right_algn">:</td>
-                            <td class="right_algn"><?php echo $pay_list->hra; ?></td>
+                            <td class="right_algn"><?php echo $earnings->hra; ?></td>
                             <td></td>
                             <td>PT</td>
                             <td class="right_algn">:</td>
-                            <td class="right_algn"><?php echo $pay_list->p_tax; ?></td>
+                            <td class="right_algn"><?php echo $earnings->p_tax; ?></td>
                         </tr>
 
                         <tr>
                             <td>Conveyance</td>
                             <td class="right_algn">:</td>
-                            <td class="right_algn"><?php echo $pay_list->conveyance; ?></td>
+                            <td class="right_algn"><?php echo $earnings->conveyance; ?></td>
                             <td></td>
                             <td>Advance</td>
                             <td class="right_algn">:</td>
-                            <td class="right_algn"><?php echo $pay_list->advance; ?></td>
+                            <td class="right_algn"><?php echo $earnings->advance; ?></td>
 
                         </tr>
 
                         <tr>
                             <td>Other all</td>
                             <td class="right_algn">:</td>
-                            <td class="right_algn"><?php echo $pay_list->others; ?></td>
+                            <td class="right_algn"><?php echo $earnings->others; ?></td>
                             <td></td>
                             <td>Misc</td>
                             <td class="right_algn">:</td>

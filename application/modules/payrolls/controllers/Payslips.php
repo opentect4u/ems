@@ -20,14 +20,6 @@ class Payslips extends MX_Controller {
 
         $link['title']  = "Payslip";
 
-        $link['link']   =   [
-
-            "/assets/plugins/footable/css/footable.core.css",
-
-            "/assets/plugins/bootstrap-select/bootstrap-select.min.css"
-
-        ];
-
         $select = array("emp_code", "emp_name", "img_path");
 
         $link['user_dtls']   = $this->Payroll->f_get_particulars("md_employee", $select, array("emp_code" => $this->session->userdata('loggedin')->user_id), 1);
@@ -37,40 +29,15 @@ class Payslips extends MX_Controller {
         
     }
 
-
-    //Latest unapproved salary statement of employees'
     public function index(){
-
-        $script['script'] = [
-        
-            '/assets/plugins/footable/js/footable.all.min.js',
-
-            '/assets/plugins/bootstrap-select/bootstrap-select.min.js',
-
-            'js/footable-init.js',
-
-            '/assets/plugins/datatables/jquery.dataTables.min.js'
-        
-        ];
         
         //Employee List
-        $select = array(
-            
-            "trans_dt", "month", "year", "net_amount"
-                    
-        );
-        
-        $where  = array(
 
-            "emp_code = '".$this->session->userdata('loggedin')->user_id."' ORDER BY trans_dt DESC" => NULL
-                    
-        ); 
+        $data['pay_list'] = $this->Payroll->f_get_netsal_emp_wise();
 
-        $data['pay_list'] = $this->Payroll->f_get_particulars('td_pay_slip', $select, $where, 0);
-    
         $this->load->view("payslip/dashboard", $data);
 
-        $this->load->view('footer', $script);
+        $this->load->view('footer');
 
     }
 
@@ -88,6 +55,35 @@ class Payslips extends MX_Controller {
 
         $data['pay_list'] = $this->Payroll->f_get_particulars('td_pay_slip', NULL, $where, 1);
         
+        unset($where);
+        $where = array(
+            "t.head_cd = m.sl_no" => NULL,
+            "t.org_id = m.org_id" => NULL,
+            "t.org_id"    => $this->session->userdata('loggedin')->org_id,
+            "t.emp_code"  => $this->session->userdata('loggedin')->user_id,
+            "m.flag"      => 'E',
+            "t.month"     => $this->input->get('month'),
+            "t.year"      => $this->input->get('year'),
+
+        );
+
+        $data['earning'] = $this->Payroll->f_get_particulars('td_pay_trans t, md_heads m', NULL, $where, 0);
+
+        unset($where);
+       
+        $where = array(
+            "t.head_cd = m.sl_no" => NULL,
+            "t.org_id = m.org_id" => NULL,
+            "t.org_id"    => $this->session->userdata('loggedin')->org_id,
+            "t.emp_code"  => $this->session->userdata('loggedin')->user_id,
+            "m.flag"      => 'D',
+            "t.month"     => $this->input->get('month'),
+            "t.year"      => $this->input->get('year'),
+
+        );
+
+        $data['deduction'] = $this->Payroll->f_get_particulars('td_pay_trans t, md_heads m', NULL, $where, 0);
+
         $this->load->view("payslip/salaryslip", $data);
 
         $this->load->view('footer', $script);

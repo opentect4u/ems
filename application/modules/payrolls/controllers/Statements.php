@@ -39,25 +39,11 @@ class Statements extends MX_Controller {
 
     public function index(){
 
-        /* //Employee List
-        $select = array(
-            
-            "m.emp_code", "m.emp_name", "d.dept_name department",
-            "m.designation", "m.img_path"
-                    
-        );
+        //Employee List
         
-        $where  = array(
-
-            "m.emp_code = t.emp_code" => NULL,
-            "m.department = d.sl_no"  => NULL,
-            "m.emp_status" => 'A'
-                    
-        ); 
-
-        $data['emp_list'] = $this->Payroll->f_get_particulars('md_employee', $select, $where, 0);
-     */
-        $this->load->view("statement/dashboard");
+        $data['emp_list'] = $this->Payroll->f_get_netsal();
+        
+        $this->load->view("statement/dashboard", $data);
 
         $this->load->view('footer');
 
@@ -69,70 +55,28 @@ class Statements extends MX_Controller {
 
         if($_SERVER['REQUEST_METHOD'] == "POST") {
 
-            $data_array = array (
-
-                "emp_code"         =>  $this->input->post('emp_code'),
-
-                "basic"            =>  $this->input->post('basic'),
-
-                "da"               =>  $this->input->post('da'),
+            for($i = 0; $i < count($this->input->post('head_cd')); $i++){
                 
-                "hra"              =>  $this->input->post('hra'),
+                $data_array[] = array (
+
+                    "org_id"     =>  $this->session->userdata('loggedin')->org_id,
+
+                    "emp_code"   =>  $this->input->post('emp_code'),
+
+                    "head_cd"    =>  $this->input->post('head_cd')[$i],
+
+                    "amount"     =>  $this->input->post('amount')[$i],
+
+                    "created_by" =>  $this->session->userdata('loggedin')->user_name,
+        
+                    "created_dt" =>  date('Y-m-d h:i:s')
+        
+
+                ); 
                 
-                "conveyance"       =>  $this->input->post('conveyance'),
-                
-                "others"           =>  $this->input->post('others'),
-                
-                "tot_earnings"     =>  $this->input->post('tot_earnings'),
-                
-                "pf"               =>  $this->input->post('pf'),
-
-                "esi"              =>  $this->input->post('esi'),
-
-                "p_tax"            =>  $this->input->post('ptax'),
-
-                "incentives"       =>  $this->input->post('incentives'),
-
-                "tds"              =>  $this->input->post('tds'),
-
-                "lwf"              =>  $this->input->post('lwf'),
-
-                "accommodation"    =>  $this->input->post('accommodation'),
-
-                "laundry"          =>  $this->input->post('laundry'),
-
-                "advance"          =>  $this->input->post('advance'),
-
-                "misc"             =>  $this->input->post('misc'),
-
-                "tot_deduction"    =>  $this->input->post('tot_deductions'),
-
-                "net_amount"       =>  $this->input->post('net_sal'),
-
-                "bank_name"        =>  $this->input->post('bank_name'),
-
-                "bank_ac_no"       =>  $this->input->post('bank_acc_no'),
-
-                "location"         =>  $this->input->post('location'),
-                
-                "pf_ac_no"         => $this->input->post('pf_acc_no'), 
-
-                "esi_no"           =>  $this->input->post('esi_no'),
-
-                "pan_no"           =>  $this->input->post('pan_no'),
-                
-                "base_or_eligibitity"=>  $this->input->post('base_or_eligibitity'),
-                
-                "ifsc"             =>  $this->input->post('ifsc'),
-
-                "created_by"       =>  $this->session->userdata('loggedin')->user_name,
-    
-                "created_dt"       =>  date('Y-m-d h:i:s')
-    
-
-            );  
+            }
             
-            $this->Payroll->f_insert('td_pay_statement', $data_array);
+            $this->Payroll->f_insert_multiple('td_pay_statement', $data_array);
 
             //Setting Messages
             $message    =   array( 
@@ -145,7 +89,7 @@ class Statements extends MX_Controller {
 
             $this->session->set_flashdata('msg', $message);
 
-            redirect('payrolls/statements');
+            redirect('payroll/statement');
 
         }
 
@@ -156,12 +100,6 @@ class Statements extends MX_Controller {
 
             //Employees
             $data['employee'] = $this->Payroll->f_get_particulars("md_employee", array("emp_code", "emp_name"), array('org_id' => $this->session->userdata('loggedin')->org_id), 0);
-            
-            //Setting Null values
-            $data['emp']  = (object) array (
-                "emp_code" =>  null,
-                "amount" => NULL
-            );
 
             //Default Statements
             $data['statement'] =  array((object)array(
@@ -189,73 +127,30 @@ class Statements extends MX_Controller {
 
         if($_SERVER['REQUEST_METHOD'] == "POST") {
 
-            $data_array = array (
+            $this->Payroll->f_delete('td_pay_statement', array('org_id' => $this->session->userdata('loggedin')->org_id, 'emp_code' => $this->input->post('emp_code')));
 
-                "basic"            =>  $this->input->post('basic'),
-
-                "da"               =>  $this->input->post('da'),
+            for($i = 0; $i < count($this->input->post('head_cd')); $i++){
                 
-                "hra"              =>  $this->input->post('hra'),
+                $data_array[] = array (
+
+                    "org_id"     =>  $this->session->userdata('loggedin')->org_id,
+
+                    "emp_code"   =>  $this->input->post('emp_code'),
+
+                    "head_cd"    =>  $this->input->post('head_cd')[$i],
+
+                    "amount"     =>  $this->input->post('amount')[$i],
+
+                    "created_by" =>  $this->session->userdata('loggedin')->user_name,
+        
+                    "created_dt" =>  date('Y-m-d h:i:s')
+        
+
+                ); 
                 
-                "conveyance"       =>  $this->input->post('conveyance'),
-                
-                "others"           =>  $this->input->post('others'),
-                
-                "tot_earnings"     =>  $this->input->post('tot_earnings'),
-                
-                "pf"               =>  $this->input->post('pf'),
-
-                "esi"              =>  $this->input->post('esi'),
-
-                "p_tax"            =>  $this->input->post('ptax'),
-
-                "incentives"       =>  $this->input->post('incentives'),
-
-                "tds"              =>  $this->input->post('tds'),
-
-                "lwf"              =>  $this->input->post('lwf'),
-
-                "accommodation"    =>  $this->input->post('accommodation'),
-
-                "laundry"          =>  $this->input->post('laundry'),
-
-                "advance"          =>  $this->input->post('advance'),
-
-                "misc"             =>  $this->input->post('misc'),
-
-                "tot_deduction"    =>  $this->input->post('tot_deductions'),
-
-                "net_amount"       =>  $this->input->post('net_sal'),
-
-                "bank_name"        =>  $this->input->post('bank_name'),
-
-                "bank_ac_no"       =>  $this->input->post('bank_acc_no'),
-
-                "location"         =>  $this->input->post('location'),
-                
-                "pf_ac_no"         =>  $this->input->post('pf_acc_no'), 
-
-                "esi_no"           =>  $this->input->post('esi_no'),
-
-                "pan_no"           =>  $this->input->post('pan_no'),
-                
-                "base_or_eligibitity"=>  $this->input->post('base_or_eligibitity'),
-                
-                "ifsc"             =>  $this->input->post('ifsc'),
-
-                "modified_by"       =>  $this->session->userdata('loggedin')->user_name,
-    
-                "modified_dt"       =>  date('Y-m-d h:i:s')
-
-            );  
+            }
             
-            $where = array(
-
-                "emp_code"  => $this->session->userdata('valid')['emp_code']
-
-            );
-
-            $this->Payroll->f_edit('td_pay_statement', $data_array, $where);
+            $this->Payroll->f_insert_multiple('td_pay_statement', $data_array);
 
             //Setting Messages
             $message    =   array( 
@@ -270,7 +165,7 @@ class Statements extends MX_Controller {
 
             $this->session->unset_userdata('valid');
 
-            redirect('payrolls/statements');
+            redirect('payroll/statement');
 
         }
 
@@ -279,76 +174,27 @@ class Statements extends MX_Controller {
             //Dependencies
             $data['url']    = 'edit';
 
-            //Employee List
-            $select = array(
+            //Employees
+            $data['employee'] = $this->Payroll->f_get_particulars("md_employee", array("emp_code", "emp_name"), array('org_id' => $this->session->userdata('loggedin')->org_id), 0);
+            
+            //Statements
+            $data['statement'] =  $this->Payroll->f_get_particulars("td_pay_statement", array("head_cd", "amount"), array('org_id' => $this->session->userdata('loggedin')->org_id, 'emp_code' => $this->input->get('emp_code')), 0);
                 
-                "m.emp_code", "m.emp_name", "d.dept_name department"
+            //Heads
+            $where = array(
+                "org_id" => $this->session->userdata('loggedin')->org_id,
             );
 
-            $where  = array(
-
-                        "m.department = d.sl_no"    => NULL
-            ); 
-
-            $data['employee_dtls']    =   $this->Payroll->f_get_particulars("md_employee m, md_departments d", $select, $where, 0);
-
-            //Statement Details
-            $where  = array(
-
-                "emp_code"    => $this->input->get('emp_code')
-            ); 
-
-            $data['statemets']  =   $this->Payroll->f_get_particulars("td_pay_statement", NULL, $where, 1);
-            
-            $this->session->set_userdata('valid', $where);
+            $data['heads'] = $this->Payroll->f_get_particulars('md_heads', NULL, $where, 0);
 
             $this->load->view("statement/form", $data);
 
-            $script['script'] = [
-
-                "/assets/plugins/moment/moment.js",
-    
-                "/assets/plugins/daterangepicker/daterangepicker.js",
-
-                "/js/moduleValidations.js"
-    
-            ];
-
-            $this->load->view('footer', $script);
+            $this->load->view('footer');
 
         }
 
     }
 
-    //Checking P-Tax
-    public function f_ptax(){
-
-        $this->calculate(1);
-
-        exit();
-    }
-
-    public function calculate($id){
-
-        $amount     = (int)$this->input->get('amount');
-        $data       = $this->Payroll->f_get_particulars('md_ptax_slab', array('from_amt', 'to_amt'), array('sl_no' => $id), 1);
-        
-        $from_amt   = (int)$data->from_amt;
-        $to_amt     = (int)$data->to_amt;
-        
-        if(($amount >= $from_amt) && ($amount <= $to_amt)){
-
-            echo $this->Payroll->f_get_particulars('md_ptax_slab', array('tax_amt'), array('sl_no' => $id), 1)->tax_amt;
-
-        }
-        else{
-
-            $this->calculate(++$id);
-
-        }
-
-    }   
-	
 }
     
 ?>

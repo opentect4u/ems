@@ -23,6 +23,8 @@
                                 <th>ID</th>
                                 <th>Name</th>
                                 <th>Department</th>
+                                <th>Earnings</th>
+                                <th>Deductions</th>
                                 <th>Net Salary</th>
                                 <th>Action</th>
 
@@ -30,40 +32,42 @@
 
                         </thead>
                         
-                        <!-- <tbody> 
+                        <tbody> 
 
                             <?php 
                             
                             if($emp_list) {
 
                                 
-                                    foreach($emp_list as $e_dtls) {
+                                    foreach($emp_list as $list) {
 
                             ?>
 
                                     <tr>
 
-                                        <td><?php echo $e_dtls->emp_code; ?></td>
+                                        <td><?php echo $list->emp_code; ?></td>
                                         <td class="row">
                                             
-                                            <img class="avatar" src="<?php echo base_url($e_dtls->img_path); ?>" alt="Profile Image" height="40" width="50">
+                                            <img class="avatar" src="<?php echo base_url($list->img_path); ?>" alt="Profile Image" height="40" width="50">
                                             <div style="margin-left: 10px;">
 
-                                                <?php echo $e_dtls->emp_name; ?>
+                                                <?php echo $list->emp_name; ?>
 
                                             </div>    
                                             
                                         </td>
-                                        <td><?php echo $e_dtls->department; ?></td>
-                                        <td><?php echo $e_dtls->designation; ?></td>
+                                        <td><?php echo $list->dept_name; ?></td>
+                                        <td><?php echo $list->earning; ?></td>
+                                        <td><?php echo $list->deduction; ?></td>
+                                        <td><?php echo $list->net_amount; ?></td>
                                         <td>
                                         
-                                            <a href="<?php echo site_url('payroll/statements/edit?emp_code=').$e_dtls->emp_code; ?>"
+                                            <a href="<?php echo site_url('payroll/statement/edit?emp_code='.$list->emp_code.'&earning='.$list->earning.'&deduction='.$list->deduction.'&net_amount='.$list->net_amount.''); ?>"
                                                 class="edit"
                                                 title="Edit"
                                             >
 
-                                                <i class="fas fa-pencil-alt text-inverse m-r-10" style="color: #007bff"></i>
+                                                <i class="fas fa-pencil-alt text-inverse m-r-10" style="color: #007bff;"></i>
                                                 
                                             </a>
                                             
@@ -84,7 +88,7 @@
                                 }
                             ?>
                         
-                        </tbody> -->
+                        </tbody>
 
                     </table>
                 </div>

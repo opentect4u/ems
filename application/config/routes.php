@@ -56,11 +56,15 @@ $route['(:any)'] = '$1s';
 $route['(:any)/approve'] = '$1s/approves';
 $route['(:any)/payment'] = '$1s/payments';
 $route['(:any)/statement'] = '$1s/statements';
+$route['(:any)/payslipgeneration'] = '$1s/payslipGenerations';
+$route['(:any)/payslip'] = '$1s/payslips';
 $route['(:any)/(:any)'] = '$1s/f_$2';
 
 $route['(:any)/approve/(:any)'] = '$1s/approves/f_$2';
 $route['(:any)/payment/(:any)'] = '$1s/payments/f_$2';
 $route['(:any)/statement/(:any)'] = '$1s/statements/f_$2';
+$route['(:any)/payslipgeneration/(:any)'] = '$1s/payslipGenerations/f_$2';
+$route['(:any)/payslip/(:any)'] = '$1s/payslips/f_$2';
 $route['(:any)/report/(:any)'] = '$1s/reports/f_$2';
 
 $route['(:any)/(:any)/(:any)'] = '$1s/f_$2_$3';

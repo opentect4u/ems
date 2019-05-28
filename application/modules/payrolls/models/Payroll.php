@@ -73,113 +73,84 @@
 
 		}
 
-		public function f_get_payDetails($month){
-			$sql = 'SELECT DATE("'.date("Y-m-d").'") trans_dt, MONTHNAME("'.$month.'") month, YEAR("'.date("Y-m-d").'") year, t.emp_code, m.emp_name, `d`.`dept_name` `department`, `m`.`designation`, `m`.`phn_no`, `m`.`email`, `m`.`joining_date`, `t`.bank_name , `t`.bank_ac_no, `t`.location , `t`.pf_ac_no, `t`.esi_no , `t`.pan_no, `t`.base_or_eligibitity, `t`.ifsc, `t`.basic , `t`.da, `t`.hra , `t`.conveyance, `t`.others , `t`.pf, `t`.esi , `t`.p_tax, incentives, `t`.tds, `t`.lwf, `t`.accommodation, `t`.laundry, `t`.advance , `t`.misc, `t`.tot_earnings , `t`.tot_deduction, `t`.net_amount 
-					FROM `md_employee` `m`, `md_departments` `d`, `td_pay_statement` `t`
-					WHERE `m`.`department` = `d`.`sl_no` AND `m`.`emp_code` = `t`.`emp_code` AND `m`.`emp_status` = "A"
-					GROUP BY m.emp_code';
+		//For All Employee's Net Salary
+		
+		public function f_get_netsal(){
 
-			return $this->db->query($sql)->result();	
-		}
+			$sql = "SELECT e.emp_name, e.img_path, d.dept_name, t3.* FROM md_employee e, md_departments d,
+					(SELECT t1.emp_code, t1.amount earning, t2.amount deduction, (t1.amount - t2.amount) net_amount FROM
+						(SELECT `s`.`emp_code`, sum(s.amount) amount, `t`.`flag` 
+							FROM `td_pay_statement` `s`, `md_heads` `t` 
+							WHERE `s`.`org_id` = '".$this->session->userdata('loggedin')->org_id."'
+							AND `t`.flag = 'E'
+							AND `s`.`head_cd` = `t`.`sl_no` GROUP BY `s`.`emp_code`, `t`.`flag`) t1, 
+						(SELECT `s`.`emp_code`, sum(s.amount) amount, `t`.`flag` 
+							FROM `td_pay_statement` `s`, `md_heads` `t` 
+							WHERE `s`.`org_id` = '".$this->session->userdata('loggedin')->org_id."'
+							AND `t`.flag = 'D'
+							AND `s`.`head_cd` = `t`.`sl_no` GROUP BY `s`.`emp_code`, `t`.`flag`) t2
+					WHERE t1.emp_code = t2.emp_code) t3
+					WHERE e.org_id = '".$this->session->userdata('loggedin')->org_id."'
+					AND e.emp_code = t3.emp_code AND e.department = d.sl_no";
 
-		public function f_get_payment(){
-
-			$date = $this->input->post('year').'-'.$this->input->post('month').'-01';
-			$month= date('F', strtotime($date));
-			
-			if($this->input->post('emp_code')){
-
-				$sql = "SELECT t1.emp_code, t1.emp_name, t1.absent, t2.leaves, (DAY(LAST_DAY('".$this->input->post('year')."-".$this->input->post('month')."-01')) - (ifnull(t1.absent, 0) + ifnull(t2.leaves, 0))) working_dayes, t1.`net_amount` 
-						FROM
-						(SELECT t.`emp_code`, t.`emp_name`, a.`absent`, t.`net_amount` 
-						FROM `td_pay_slip` t LEFT JOIN
-							(SELECT * FROM td_absents 
-									WHERE month = ".$this->input->post('month')." 
-									AND year = ".$this->input->post('year').") a
-							ON t.emp_code = a.emp_code
-							WHERE t.`month` = '$month' 
-							AND t.`year` = ".$this->input->post('year').") t1 LEFT JOIN
-						(SELECT emp_code, COUNT(1) leaves FROM td_leave_dates 
-						WHERE month(leave_dt) = ".$this->input->post('month')."
-						AND year(leave_dt) = ".$this->input->post('year')."
-						AND td_leave_dates.status = 'A' GROUP BY emp_code) t2
-						
-						ON t1.emp_code = t2.emp_code
-						WHERE t1.emp_code = ".$this->input->post('emp_code')."";
-
-			}
-			else{
-
-				$sql = "SELECT t1.emp_code, t1.emp_name, t1.absent, t2.leaves, (DAY(LAST_DAY('".$this->input->post('year')."-".$this->input->post('month')."-01')) - (ifnull(t1.absent, 0) + ifnull(t2.leaves, 0))) working_dayes, t1.`net_amount` 
-						FROM
-						(SELECT t.`emp_code`, t.`emp_name`, a.`absent`, t.`net_amount` 
-						FROM `td_pay_slip` t LEFT JOIN
-							(SELECT * FROM td_absents 
-									WHERE month = ".$this->input->post('month')." 
-									AND year = ".$this->input->post('year').") a
-							ON t.emp_code = a.emp_code
-							WHERE t.`month` = '$month' 
-							AND t.`year` = ".$this->input->post('year').") t1 LEFT JOIN
-						(SELECT emp_code, COUNT(1) leaves FROM td_leave_dates 
-						WHERE month(leave_dt) = ".$this->input->post('month')."
-						AND year(leave_dt) = ".$this->input->post('year')."
-						AND td_leave_dates.status = 'A' GROUP BY emp_code) t2
-						
-						ON t1.emp_code = t2.emp_code";
-
-			}
-			
 			return $this->db->query($sql)->result();
+
+		}
+		
+		public function f_generation(){
+			
+			$sql = "INSERT INTO td_pay_slip (org_id, trans_dt, month, year, emp_code, emp_name, created_dt, created_by) 
+					SELECT ".$this->session->userdata('loggedin')->org_id.",
+						   '".date('Y-m-d')."',
+						   '".date('F', mktime(0, 0, 0, $this->input->post('month'), 10))."',
+						   ".date('Y').",
+						   emp_code,
+						   emp_name,
+						   '".date('Y-m-d h:i:s')."',
+						   '".$this->session->userdata('loggedin')->user_name."'
+					FROM md_employee
+					WHERE org_id = ".$this->session->userdata('loggedin')->org_id."";
+
+			$this->db->query($sql);		
+
+			$sql = "INSERT INTO td_pay_trans (trans_dt, org_id,  month, year, emp_code, head_cd, amount)
+					SELECT '".date('Y-m-d')."',
+						   '".$this->session->userdata('loggedin')->org_id."', 
+						   '".date('F', mktime(0, 0, 0, $this->input->post('month'), 10))."',
+						   ".date('Y').",
+						   emp_code,
+						   head_cd,
+						   amount
+					FROM td_pay_statement
+					WHERE org_id = ".$this->session->userdata('loggedin')->org_id."";
+
+			$this->db->query($sql);		
+
 		}
 
-		public function f_get_payment_sum(){
-			$date = $this->input->post('year').'-'.$this->input->post('month').'-01';
-			$month= date('F', strtotime($date));
-			
-			if($this->input->post('emp_code')){
-				
-				$sql = "SELECT SUM(t3.net_amount) net_amount FROM
-						(SELECT t1.emp_code, t1.emp_name, t1.absent, t2.leaves, (DAY(LAST_DAY('".$this->input->post('year')."-".$this->input->post('month')."-01')) - (ifnull(t1.absent, 0) + ifnull(t2.leaves, 0))) working_dayes, t1.`net_amount` 
-						FROM
-						(SELECT t.`emp_code`, t.`emp_name`, a.`absent`, t.`net_amount` 
-						FROM `td_pay_slip` t LEFT JOIN
-							(SELECT * FROM td_absents 
-									WHERE month = ".$this->input->post('month')." 
-									AND year = ".$this->input->post('year').") a
-							ON t.emp_code = a.emp_code
-							WHERE t.`month` = '$month' 
-							AND t.`year` = ".$this->input->post('year').") t1 LEFT JOIN
-						(SELECT emp_code, COUNT(1) leaves FROM td_leave_dates 
-						WHERE month(leave_dt) = ".$this->input->post('month')."
-						AND year(leave_dt) = ".$this->input->post('year')."
-						AND td_leave_dates.status = 'A' GROUP BY emp_code) t2
-						
-						ON t1.emp_code = t2.emp_code WHERE t1.emp_code = ".$this->input->post('emp_code').") t3";
+		public function f_get_netsal_emp_wise(){
 
-			}
-			else{
+			$sql = "SELECT t1.trans_dt, t1.emp_code, t1.month, t1.year, t1.amount earning, t2.amount deduction, (t1.amount - t2.amount) net_amount FROM
+						(SELECT `s`.`emp_code`, s.month, s.year, s.trans_dt, sum(s.amount) amount
+						 FROM `td_pay_trans` `s`, `md_heads` `t`  
+							WHERE `s`.`org_id` = '".$this->session->userdata('loggedin')->org_id."'
+							AND `s`.emp_code = '".$this->session->userdata('loggedin')->user_id."'
+							AND `t`.flag = 'E' 
+							AND `s`.`head_cd` = `t`.`sl_no` 
+							GROUP BY s.trans_dt, `s`.`emp_code`, s.month, s.year) t1, 
+						(SELECT `s`.`emp_code`, s.month, s.year, sum(s.amount) amount
+						 FROM `td_pay_trans` `s`, `md_heads` `t`  
+							WHERE `s`.`org_id` = '".$this->session->userdata('loggedin')->org_id."'
+							AND `s`.emp_code = '".$this->session->userdata('loggedin')->user_id."'
+							AND `t`.flag = 'D' 
+							AND `s`.`head_cd` = `t`.`sl_no` 
+							GROUP BY `s`.`emp_code`, s.month, s.year) t2
+					WHERE t1.emp_code = t2.emp_code
+					AND t1.month = t2.month
+					AND t1.year = t2.year GROUP BY t1.trans_dt, t1.emp_code, t1.month, t1.year ORDER BY t1.trans_dt";
 
-				$sql = "SELECT SUM(t3.net_amount) net_amount FROM
-						(SELECT t1.emp_code, t1.emp_name, t1.absent, t2.leaves, (DAY(LAST_DAY('".$this->input->post('year')."-".$this->input->post('month')."-01')) - (ifnull(t1.absent, 0) + ifnull(t2.leaves, 0))) working_dayes, t1.`net_amount` 
-						FROM
-						(SELECT t.`emp_code`, t.`emp_name`, a.`absent`, t.`net_amount` 
-						FROM `td_pay_slip` t LEFT JOIN
-							(SELECT * FROM td_absents 
-									WHERE month = ".$this->input->post('month')." 
-									AND year = ".$this->input->post('year').") a
-							ON t.emp_code = a.emp_code
-							WHERE t.`month` = '$month' 
-							AND t.`year` = ".$this->input->post('year').") t1 LEFT JOIN
-						(SELECT emp_code, COUNT(1) leaves FROM td_leave_dates 
-						WHERE month(leave_dt) = ".$this->input->post('month')."
-						AND year(leave_dt) = ".$this->input->post('year')."
-						AND td_leave_dates.status = 'A' GROUP BY emp_code) t2
-						
-						ON t1.emp_code = t2.emp_code) t3";
+			return $this->db->query($sql)->result();
 
-			}
-			
-			return $this->db->query($sql)->row();
 		}
 
 	}

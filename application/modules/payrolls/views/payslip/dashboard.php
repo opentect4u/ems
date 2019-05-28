@@ -20,6 +20,8 @@
                                     <th>Date</th>
                                     <th>Month</th>
                                     <th>Year</th>
+                                    <th>Earnings</th>
+                                    <th>Deductions</th>
                                     <th>Net Salary</th>
                                     <th>Action</th>
 
@@ -43,10 +45,12 @@
                                             <td><?php echo date('d-m-Y', strtotime($p_list->trans_dt)); ?></td>
                                             <td><?php echo $p_list->month; ?></td>
                                             <td><?php echo $p_list->year; ?></td>
+                                            <td><?php echo $p_list->earning; ?></td>
+                                            <td><?php echo $p_list->deduction; ?></td>
                                             <td><?php echo $p_list->net_amount; ?></td>
                                             <td>
                                             
-                                                <a href="<?php echo site_url('payroll/payslips/view?month=').$p_list->month.'&year='.$p_list->year; ?>"
+                                                <a href="<?php echo site_url('payroll/payslip/view?month=').$p_list->month.'&year='.$p_list->year; ?>"
                                                    class="edit"
                                                    title="Edit"
                                                 >

@@ -1,6 +1,6 @@
 <form class="form-sample" 
         method="POST"
-        action="<?php echo site_url('payroll/head/'.$url); ?>"
+        action="<?php echo site_url('payroll/statement/'.$url); ?>"
 >
     <div class="row">
         <div class="col-12 grid-margin">
@@ -21,7 +21,7 @@
                                         foreach($employee as $list){
                                         ?>
                                             <option value="<?php echo $list->emp_code; ?>" 
-                                                <?php echo ($list->emp_code == $this->input->post('emp_code'))? 'selected':''; ?>
+                                                <?php echo ($list->emp_code == $this->input->get('emp_code'))? 'selected':''; ?>
                                             ><?php echo $list->emp_name; ?></option>
                                         <?php
                                         }
@@ -52,7 +52,7 @@
                                 <div class="form-group row">
                                     <label class="col-sm-3 col-form-label">Claim Head <span class="required">*</span></label>
                                     <div class="col-sm-9">
-                                        <select name="sl_no[]"
+                                        <select name="head_cd[]"
                                                 class="form-control head"
                                                 required
                                             >
@@ -62,7 +62,7 @@
                                             ?>
                                                 <option value="<?php echo $head_list->sl_no; ?>"
                                                     flag="<?php echo $head_list->flag; ?>" 
-                                                    <?php echo ($head_list->sl_no == $list->sl_no)? 'selected':''; ?> >
+                                                    <?php echo ($head_list->sl_no == $list->head_cd)? 'selected':''; ?> >
                                                     <?php echo $head_list->head_desc; ?>
                                                 </option>
 
@@ -101,25 +101,55 @@
                         }
                         ?>
                     </div>
+
                     <div class="row">
-                        <div class="col-md-7"></div>
-                        <div class="col-md-3">
+                        <div class="col-md-7">
                             <div class="form-group row">
-                                <label class="col-sm-4 col-form-label">Total</label>
+                                <label class="col-sm-4 col-form-label">Total Earnings</label>
                                 <div class="col-sm-8">
                                     <div class="input-group">
                                         <input type="text" 
-                                                id="amount"
-                                                name="tot_amount"
+                                                id="earnings"
                                                 style="height: calc(2.25rem + 2px); padding: 20px; border-color: transparent;box-shadow: none; border: 0;"
+                                                value="<?php echo $this->input->get('earning')?>"
                                                 readonly
-                                                value="<?php echo $emp->amount; ?>"
                                             />
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-1"></div>
+                        <div class="col-md-4">
+                            <div class="form-group row">
+                                <label class="col-sm-4 col-form-label">Net Amount</label>
+                                <div class="col-sm-8">
+                                    <div class="input-group">
+                                        <input type="text" 
+                                                id="amount"
+                                                style="height: calc(2.25rem + 2px); padding: 20px; border-color: transparent;box-shadow: none; border: 0;"
+                                                value="<?php echo $this->input->get('net_amount')?>"
+                                                readonly
+                                            />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-7">
+                            <div class="form-group row">
+                                <label class="col-sm-4 col-form-label">Total Deductions</label>
+                                <div class="col-sm-8">
+                                    <div class="input-group">
+                                        <input type="text" 
+                                                id="deduction"
+                                                style="height: calc(2.25rem + 2px); padding: 20px; border-color: transparent;box-shadow: none; border: 0;"
+                                                value="<?php echo $this->input->get('deduction')?>"
+                                                readonly
+                                            />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -139,7 +169,7 @@
                       '      <div class="form-group row">'+
                       '          <label class="col-sm-3 col-form-label">Claim Head <span class="required">*</span></label>'+
                       '          <div class="col-sm-9">'+
-                      '              <select name="claim_head[]"'+
+                      '              <select name="head_cd[]"'+
                       '                      class="form-control head" required'+
                       '                  > <option value="">Select</option> <?php foreach($heads as $head_list){ ?> <option value="<?php echo $head_list->sl_no; ?>" flag="<?php echo $head_list->flag; ?>" ><?php echo $head_list->head_desc; ?></option> <?php } ?></select>'+
                       '          </div>'+
@@ -183,18 +213,23 @@
 
         $("#statement").on('change', '.amount',function(){
 
-            var sum = 0.00;
+            var sum = earnings = deduction =0.00;
+                 
             $('.amount').each(function(){
 
                 if($('.head option:selected').eq($('.amount').index(this)).attr('flag') === 'E'){
+                    earnings += +$(this).val();
                     sum += +$(this).val();
                 }
                 else if($('.head option:selected').eq($('.amount').index(this)).attr('flag') === 'D'){
+                    deduction += +$(this).val();
                     sum -= $(this).val();
                 }
 
             });
 
+            $('#earnings').val(earnings);
+            $('#deduction').val(deduction);
             $('#amount').val(sum);
         });
 
