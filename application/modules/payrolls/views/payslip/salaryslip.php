@@ -9,7 +9,7 @@
         WindowObject.document.writeln('<html><head><title></title><style type="text/css">');
 
 
-        WindowObject.document.writeln('@media print { .center { text-align: center;} .underline { text-decoration: underline; } p { display:inline; } .left { margin-left: 315px; text-align="left" display: inline; } .right { margin-right: 375px; display: inline; } td.left_algn { text-align: left; } td.right_algn { text-align: right; } .t2 th { border: 1px solid black; background-color: #c0c0c0; } td.hight { hight: 15px; } table.width { width: 100%; } table.noborder { border: 0px solid black; } th.noborder { border: 0px solid black; } .border { border: 1px solid black; } .bottom { position: absolute;; bottom: 5px; width: 100%; } } </style>');
+        WindowObject.document.writeln('@media print { .row {display: flex; flex-wrap: wrap; margin-right: -15px; margin-left: -15px; } .col-md-6 { flex: 0 0 50%; max-width: 50%; } .table-responsive { display: block; width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; -ms-overflow-style: -ms-autohiding-scrollbar; } .col-md-12 { flex: 0 0 100%; max-width: 100%; } .center { text-align: center;} .underline { text-decoration: underline; } p { display:inline; } .left { margin-left: 315px; text-align="left" display: inline; } .right { margin-right: 375px; display: inline; } td.left_algn { text-align: left; } td.right_algn { text-align: right; } .t2 th { border: 1px solid black; background-color: #c0c0c0; } td.hight { hight: 15px; } table.width { width: 100%; } table.noborder { border: 0px solid black; } th.noborder { border: 0px solid black; } .border { border: 1px solid black; } .bottom { position: absolute;; bottom: 5px; width: 100%; } } </style>');
         WindowObject.document.writeln('</head><body onload="window.print()">');
         WindowObject.document.writeln(divToPrint.innerHTML);
         WindowObject.document.writeln('</body></html>');
@@ -53,7 +53,7 @@
         }
         $Rupees = implode('', array_reverse($str));
         $paise = ($decimal) ? "and " . ($words[$decimal / 10] . " " . $words[$decimal % 10]) . ' Paise' : '';
-        return ($Rupees ? $Rupees . 'Rupees ' : '') . $paise .' Only.';
+        return ($Rupees ? $Rupees . 'Rupees ' : '') . $paise .' Only';
     }
 
 ?>
@@ -85,199 +85,169 @@
  -->
                 <h6 class="card-subtitle"></h6>
 
-                <div class="table-responsive">
+                <table class="width noborder" cellpadding="3.5">
 
-                    <table class="width noborder" cellpadding="3.5">
+                    <tr>
+                        <th class="noborder" width="25%"></th>
+                        <th class="noborder" width="1%"></th>
+                        <th class="noborder" width="25%"></th>
+                        <th class="noborder" width="1%"></th>
+                        <th class="noborder" width="30%"></th>
+                        <th class="noborder" width="1%"></th>
+                        <th class="noborder" width="25%"></th>
+                    </tr>
+                    <tr class="t2">
+                        <th colspan="7" style="text-align: center;">Pay Slip for the month of <?php echo $this->input->get('month');?> - <?php echo $this->input->get('year');?></th>
+                    </tr>
+                    <tr>
 
-                        <tr>
-                            <th class="noborder" width="25%"></th>
-                            <th class="noborder" width="1%"></th>
-                            <th class="noborder" width="25%"></th>
-                            <th class="noborder" width="1%"></th>
-                            <th class="noborder" width="30%"></th>
-                            <th class="noborder" width="1%"></th>
-                            <th class="noborder" width="25%"></th>
-                        </tr>
-                        <tr class="t2">
-                            <th colspan="7" style="text-align: center;">Pay Slip for the month of <?php echo $this->input->get('month');?> - <?php echo $this->input->get('year');?></th>
-                        </tr>
-                        <tr>
+                        <td>Employee ID</td>
+                        <td class="left_algn">:</td>
+                        <td class="left_algn"><?php echo $pay_list->emp_code; ?></td>
+                        <td></td>
+                        <td>Bank Name</td>
+                        <td class="left_algn">:</td>
+                        <td><?php echo $pay_list->bank_name; ?></td>
 
-                            <td>Employee ID</td>
-                            <td class="left_algn">:</td>
-                            <td class="left_algn"><?php echo $pay_list->emp_code; ?></td>
-                            <td></td>
-                            <td>Bank Name</td>
-                            <td class="left_algn">:</td>
-                            <td><?php echo $pay_list->bank_name; ?></td>
+                    </tr>
 
-                        </tr>
+                    <tr>
 
-                        <tr>
+                        <td>Name</td>
+                        <td class="left_algn">:</td>
+                        <td class="left_algn"><?php echo $pay_list->emp_name; ?></td>
+                        <td></td>
+                        <td>Bank A/C No.</td>
+                        <td class="left_algn">:</td>
+                        <td><?php echo $pay_list->bank_name; ?></td>
 
-                            <td>Name</td>
-                            <td class="left_algn">:</td>
-                            <td class="left_algn"><?php echo $pay_list->emp_name; ?></td>
-                            <td></td>
-                            <td>Bank A/C No.</td>
-                            <td class="left_algn">:</td>
-                            <td><?php echo $pay_list->bank_name; ?></td>
+                    </tr>
 
-                        </tr>
+                    <tr>
 
-                        <tr>
+                        <td>Date of Joining</td>
+                        <td class="left_algn">:</td>
+                        <td class="left_algn"><?php if(($pay_list->joining_date != "0000-00-00") && ($pay_list->joining_date != NULL)){ echo date('d-m-Y', strtotime($pay_list->joining_date)); } ?></td>
+                        <td></td>
+                        <td>Location</td>
+                        <td class="left_algn">:</td>
+                        <td class="left_algn"><?php echo $pay_list->location; ?></td>                        
 
-                            <td>Date of Joining</td>
-                            <td class="left_algn">:</td>
-                            <td class="left_algn"><?php if(($pay_list->joining_date != "0000-00-00") && ($pay_list->joining_date != NULL)){ echo date('d-m-Y', strtotime($pay_list->joining_date)); } ?></td>
-                            <td></td>
-                            <td>Location</td>
-                            <td class="left_algn">:</td>
-                            <td class="left_algn"><?php echo $pay_list->location; ?></td>                        
+                    </tr>
 
-                        </tr>
+                    <tr>
 
-                        <tr>
+                        <td>Department</td>
+                        <td class="left_algn">:</td>
+                        <td class="left_algn"><?php echo $pay_list->department; ?></td>
+                        <td></td>
+                        <td>PF No.</td>
+                        <td class="left_algn">:</td>
+                        <td class="left_algn"><?php echo $pay_list->pf_ac_no; ?></td>                        
 
-                            <td>Department</td>
-                            <td class="left_algn">:</td>
-                            <td class="left_algn"><?php echo $pay_list->department; ?></td>
-                            <td></td>
-                            <td>PF No.</td>
-                            <td class="left_algn">:</td>
-                            <td class="left_algn"><?php echo $pay_list->pf_ac_no; ?></td>                        
+                    </tr>
 
-                        </tr>
+                    <tr>
 
-                        <tr>
+                        <td>Designation</td>
+                        <td class="left_algn">:</td>
+                        <td class="left_algn"><?php echo $pay_list->designation; ?></td>
+                        <td></td>
+                        <td>ESI NO</td>
+                        <td class="left_algn">:</td>
+                        <td class="left_algn"><?php echo $pay_list->esi_no; ?></td>                        
 
-                            <td>Designation</td>
-                            <td class="left_algn">:</td>
-                            <td class="left_algn"><?php echo $pay_list->designation; ?></td>
-                            <td></td>
-                            <td>ESI NO</td>
-                            <td class="left_algn">:</td>
-                            <td class="left_algn"><?php echo $pay_list->esi_no; ?></td>                        
+                    </tr>
 
-                        </tr>
+                    <tr>
 
-                        <tr>
+                        <td></td>
+                        <td class="left_algn">:</td>
+                        <td class="left_algn"></td>
+                        <td></td>
+                        <td>PAN Number</td>
+                        <td class="left_algn">:</td>
+                        <td class="left_algn"><?php echo $pay_list->pan_no; ?></td>                        
 
-                            <td>Attendance: Base, Eligibility</td>
-                            <td class="left_algn">:</td>
-                            <td class="left_algn"><?php echo $pay_list->base_or_eligibitity; ?></td>
-                            <td></td>
-                            <td>PAN Number</td>
-                            <td class="left_algn">:</td>
-                            <td class="left_algn"><?php echo $pay_list->pan_no; ?></td>                        
+                    </tr>
 
-                        </tr>
+                </table>
+                <br>
+                <div class="row" style="text-align:center;">
+                    <div class="col-md-6">
+                        <h4>Earnings</h4>
+                        <hr>
+                        <?php 
+                        foreach($earnings as $list){
+                        ?>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <p class="col-sm-4"> <strong><?php echo $list->head_desc; ?></strong></p>
+                                        <div class="col-sm-1">:</div>
+                                        <div class="col-sm-7">
+                                            <p><?php echo $list->amount; ?></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
-                        <tr class="t2">
-                            <th colspan="2">Earnings</th>
-                            <th colspan="2">Amount</th>
-                            <th colspan="2">Deductions</th>
-                            <th>Amount</th>
-                        </tr>
-                        <tr>
-                            <td>BASIC</td>
-                            <td class="right_algn">:</td>
-                            <td class="right_algn"><?php echo $earnings->basic; ?></td>
-                            <td></td>
-                            <td>P.F</td>
-                            <td class="right_algn">:</td>
-                            <td class="right_algn"><?php echo $earnings->pf; ?></td>
-                        </tr>
+                        <?php }?>
+                    </div>
+                    <div class="col-md-6">
+                        <h4>Deductions</h4>
+                        <hr>
+                        <?php 
+                        foreach($deductions as $list){
+                        ?>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <p class="col-sm-4"> <strong><?php echo $list->head_desc; ?></strong></p>
+                                        <div class="col-sm-1">:</div>
+                                        <div class="col-sm-7">
+                                            <p><?php echo $list->amount; ?></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
-                        <tr>
-                            <td>DA</td>
-                            <td class="right_algn">:</td>
-                            <td class="right_algn"><?php echo $earnings->da; ?></td>
-                            <td></td>
-                            <td>ESI</td>
-                            <td class="right_algn">:</td>
-                            <td class="right_algn"><?php echo $earnings->esi; ?></td>
-                        </tr>
-
-                        <tr>
-                            <td>HRA</td>
-                            <td class="right_algn">:</td>
-                            <td class="right_algn"><?php echo $earnings->hra; ?></td>
-                            <td></td>
-                            <td>PT</td>
-                            <td class="right_algn">:</td>
-                            <td class="right_algn"><?php echo $earnings->p_tax; ?></td>
-                        </tr>
-
-                        <tr>
-                            <td>Conveyance</td>
-                            <td class="right_algn">:</td>
-                            <td class="right_algn"><?php echo $earnings->conveyance; ?></td>
-                            <td></td>
-                            <td>Advance</td>
-                            <td class="right_algn">:</td>
-                            <td class="right_algn"><?php echo $earnings->advance; ?></td>
-
-                        </tr>
-
-                        <tr>
-                            <td>Other all</td>
-                            <td class="right_algn">:</td>
-                            <td class="right_algn"><?php echo $earnings->others; ?></td>
-                            <td></td>
-                            <td>Misc</td>
-                            <td class="right_algn">:</td>
-                            <td class="right_algn"><?php echo $pay_list->misc; ?></td>
-                        </tr>
-
-                        <tr>
-                            <td></td>
-                            <td class="right_algn">:</td>
-                            <td class="right_algn"></td>
-                            <td></td>
-                            <td>Dedudct for Absent</td>
-                            <td class="right_algn">:</td>
-                            <td class="right_algn"><?php echo $pay_list->deduct_for_absent; ?></td>
-                        </tr>
-
-                        <tr>
-                            <td></td>
-                            <td class="right_algn">:</td>
-                            <td class="right_algn"></td>
-                            <td></td>
-                            <td>Dedudct for Half</td>
-                            <td class="right_algn">:</td>
-                            <td class="right_algn"><?php echo $pay_list->deduct_for_half; ?></td>
-                        </tr>
-
-                        <tr class="t2">
-                            <th colspan="2">Total Earnings</th>
-                            <th colspan="2" class="right_algn"><?php echo $pay_list->tot_earnings; ?></th>
-                            <th colspan="2">Total Deductions</th>
-                            <th class="right_algn"><?php echo $pay_list->tot_deduction; ?></th>
-                        </tr>
-
-                        <tr>
-                            <td>Net Pay</td>
-                            <td class="right_algn">:</td>
-                            <td class="right_algn"><?php echo $pay_list->net_amount; ?></td>
-                            <td></td>
-                            <td></td>
-                            <td class="right_algn"></td>
-                            <td class="right_algn"></td>
-                        </tr>
-
-                        <tr>
-                            <td>Net Pay in Words</td>
-                            <td class="right_algn">:</td>
-                            <td colspan="5" class="left_algn"><?php echo getIndianCurrency($pay_list->net_amount);?></td>
-                            
-                        </tr>
-
-                    </table>
-                    
+                        <?php }?>
+                    </div>
                 </div>
-
+                <div class="row" style="text-align:center;">
+                    <div class="col-md-6">
+                        <div class="row">
+                            <p class="col-sm-4"> <strong>Total: Earning</strong></p>
+                            <div class="col-sm-1">:</div>
+                            <div class="col-sm-7">
+                                <p><?php echo $this->input->get('earning'); ?></p>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div class="col-md-6">
+                        <div class="row">
+                            <p class="col-sm-4"> <strong>Total: Deduction</strong></p>
+                            <div class="col-sm-1">:</div>
+                            <div class="col-sm-7">
+                                <p><?php echo $this->input->get('deduction'); ?></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="row">
+                            <p class="col-sm-3"> <strong>Net Amount</strong></p>
+                            <div class="col-sm-1">:</div>
+                            <div class="col-sm-8">
+                                <p><?php echo $this->input->get('net_amount').' ('.getIndianCurrency($this->input->get('net_amount')).')';  ?></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div  class="bottom">

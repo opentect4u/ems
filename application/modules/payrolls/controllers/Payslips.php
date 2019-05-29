@@ -67,7 +67,7 @@ class Payslips extends MX_Controller {
 
         );
 
-        $data['earning'] = $this->Payroll->f_get_particulars('td_pay_trans t, md_heads m', NULL, $where, 0);
+        $data['earnings'] = $this->Payroll->f_get_particulars('td_pay_trans t, md_heads m', array("head_desc", "amount"), $where, 0);
 
         unset($where);
        
@@ -82,8 +82,11 @@ class Payslips extends MX_Controller {
 
         );
 
-        $data['deduction'] = $this->Payroll->f_get_particulars('td_pay_trans t, md_heads m', NULL, $where, 0);
+        $data['deductions'] = $this->Payroll->f_get_particulars('td_pay_trans t, md_heads m', array("head_desc", "amount"), $where, 0);
 
+        /* echo "<pre>";
+        var_dump($data);
+        die; */
         $this->load->view("payslip/salaryslip", $data);
 
         $this->load->view('footer', $script);

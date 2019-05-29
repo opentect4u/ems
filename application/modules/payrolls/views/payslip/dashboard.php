@@ -50,7 +50,7 @@
                                             <td><?php echo $p_list->net_amount; ?></td>
                                             <td>
                                             
-                                                <a href="<?php echo site_url('payroll/payslip/view?month=').$p_list->month.'&year='.$p_list->year; ?>"
+                                                <a href="<?php echo site_url('payroll/payslip/view?month='.$p_list->month.'&year='.$p_list->year.'&earning='.$p_list->earning.'&deduction='.$p_list->deduction.'&net_amount='.$p_list->net_amount.''); ?>"
                                                    class="edit"
                                                    title="Edit"
                                                 >
