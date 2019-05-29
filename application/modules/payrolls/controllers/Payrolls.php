@@ -143,32 +143,27 @@ class Payrolls extends MX_Controller {
         }
         else{
 
-            $script['script'] = NULL;
-
             //Month List
             $data['month_list'] =   $this->Payroll->f_get_particulars("md_month",NULL, NULL, 0);
 
             //Employee List
             $select = array(
             
-                "m.emp_code", "m.emp_name", "d.dept_name department",
-                "m.designation", "m.img_path"
+                "m.emp_code", "m.emp_name", "d.dept_name department"
                 
             );
 
             $where  = array(
-
-                "m.emp_code = t.emp_code"   => NULL,
-                "m.department = d.sl_no"    => NULL,
-                "m.emp_status" => 'A'
+                "m.org_id" => $this->session->userdata('loggedin')->org_id,
+                "m.department = d.sl_no"    => NULL
                         
             ); 
 
-            $data['employee_dtls'] = $this->Payroll->f_get_particulars('md_employee m, md_departments d, td_pay_statement t', $select, $where, 0);
+            $data['employee_dtls'] = $this->Payroll->f_get_particulars('md_employee m, md_departments d', $select, $where, 0);
 
             $this->load->view('reports/payslips', $data);
 
-            $this->load->view('footer', $script);
+            $this->load->view('footer');
         }
 
     }

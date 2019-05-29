@@ -255,6 +255,7 @@
                                     <li class="nav-item"><a class="nav-link" href="<?php echo site_url('payroll/statement'); ?>">Earnings & Deductions</a></li>
                                     <li class="nav-item"><a class="nav-link" href="<?php echo site_url('payroll/payslipgeneration'); ?>">Payslips Generation</a></li>
                                     <li class="nav-item"><a class="nav-link" href="<?php echo site_url('payroll/payslip'); ?>">Payslips</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="<?php echo site_url('payroll/payslipdetails'); ?>">Payslip Details</a></li>
                                 </ul>
                             </div>
                         </div>
