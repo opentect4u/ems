@@ -103,7 +103,7 @@ class Statements extends MX_Controller {
 
             //Default Statements
             $data['statement'] =  array((object)array(
-                "sl_no"  => NULL,
+                "head_cd"  => NULL,
                 "amount" => NULL
             ));
 
