@@ -18,14 +18,6 @@ class Departments extends MX_Controller {
         
         $link['title']  = 'Department Management';
 
-        $link['link']   =   [
-
-            "/assets/plugins/footable/css/footable.core.css",
-
-            "/assets/plugins/bootstrap-select/bootstrap-select.min.css"
-
-        ];
-
         $select = array("emp_code", "emp_name", "img_path");
 
         $link['user_dtls']   = $this->Department->f_get_particulars("md_employee", $select, array("emp_code" => $this->session->userdata('loggedin')->user_id), 1);

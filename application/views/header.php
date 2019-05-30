@@ -48,7 +48,9 @@
                     <ul class="navbar-nav navbar-nav-right">
                     <li class="nav-item dropdown mr-1">
                         <a class="nav-link count-indicator dropdown-toggle d-flex justify-content-center align-items-center" id="messageDropdown" href="#" data-toggle="dropdown">
-                        <i class="mdi mdi-email mx-0"></i>
+                            <i class="mdi mdi-email mx-0">
+                                <span style="font-size: 5px;" class="badge badge-pill badge-light" ><?php echo $notice_count->count;?></span>
+                            </i>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="messageDropdown">
                         <p class="mb-0 font-weight-normal float-left dropdown-header">Messages</p>
@@ -261,15 +263,10 @@
                         </div>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a class="nav-link" href="<?php echo site_url('notice'); ?>">
                             <i class="mdi mdi-file-document-box-outline menu-icon"></i>
                             <span class="menu-title">Notice</span>
-                            <i class="menu-arrow"></i></a>
-                        <div class="submenu">
-                            <ul class="submenu-item">
-                                <li class="nav-item"><a class="nav-link" href="pages/forms/basic_elements.html">Employee Management</a></li>
-                            </ul>
-                        </div>
+                        </a>
                     </li>
                 </ul>
                 </div>
