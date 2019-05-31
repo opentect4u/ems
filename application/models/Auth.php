@@ -59,5 +59,16 @@ class Auth extends CI_Model {
 
     }
 
+    //Count No of Payslip Generatd
+
+    public function f_get_payslipno(){
+        $sql = "SELECT ifnull(SUM(t.month), 0) count FROM (SELECT count(DISTINCT `month` ) month, year
+                FROM `td_pay_trans` WHERE `org_id` = ".$this->session->userdata('loggedin')->org_id."
+                AND `emp_code` = '".$this->session->userdata('loggedin')->user_id."'
+                GROUP BY year) t";
+
+        return $this->db->query($sql)->row();
+    }
+
 
 }

@@ -1,99 +1,75 @@
     
-    <div class="row page-titles">
-        <div class="col-md-5 col-8 align-self-center">
-            <h3 class="text-themecolor">Dashboard</h3>
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
-                <li class="breadcrumb-item active">Dashboard</li>
-            </ol>
-        </div>
-        
-    </div>
-    
     <div class="row">
-        
-        <div class="col-md-6 col-lg-3">
-            <div class="card card-body">
-                
-                <div class="row">
-                    
-                    <div class="col p-r-0 align-self-center">
-                        <h2 class="font-light m-b-0">EL</h2>
-                        <h6 class="text-muted"></h6></div>
-                    
-                    <div class="col text-right align-self-center">
-                        <div data-label="<?php echo isset($leave_balance->el_bal)? $leave_balance->el_bal : 0 ; ?>" class="css-bar m-b-0 css-bar-info css-bar-<?php echo isset($leave_balance->el_bal)? ceil($leave_balance->el_bal / 48 * 20) * 5 : 0 ; ?>"></div>
+        <div class="col-md-3 grid-margin stretch-card">
+            <div class="card border-0 border-radius-2 bg-success">
+            <div class="card-body">
+                <div class="d-flex flex-md-column flex-xl-row flex-wrap  align-items-center justify-content-between">
+                <div class="icon-rounded-inverse-success icon-rounded-lg">
+                    <i class="mdi mdi-email mx-0"></i>
+                </div>
+                <div class="text-white">
+                    <p class="font-weight-medium mt-md-2 mt-xl-0 text-md-center text-xl-left">Total Notice</p>
+                    <div class="d-flex flex-md-column flex-xl-row flex-wrap align-items-baseline align-items-md-center align-items-xl-baseline">
+                    <h3 class="mb-0 mb-md-1 mb-lg-0 mr-1"><?php echo $notice_count->count; ?></h3>
+                    <small class="mb-0"></small>
                     </div>
                 </div>
-            </div>
-        </div>
-        
-        <div class="col-md-6 col-lg-3">
-            <div class="card card-body">
-                
-                <div class="row">
-                    
-                    <div class="col p-r-0 align-self-center">
-                        <h2 class="font-light m-b-0">SL</h2>
-                        <h6 class="text-muted"></h6></div>
-                    
-                    <div class="col text-right align-self-center">
-                        <div data-label="<?php echo isset($leave_balance->ml_bal)? $leave_balance->ml_bal : 0 ; ?>" class="css-bar m-b-0 css-bar-success css-bar-<?php echo isset($leave_balance->ml_bal)? ceil($leave_balance->ml_bal / 8 * 20)  * 5 : 0 ; ?>"></div>
-                    </div>
                 </div>
             </div>
-        </div>
-
-        <div class="col-md-6 col-lg-3">
-            <div class="card card-body">
-                
-                <div class="row">
-                    
-                    <div class="col p-r-0 align-self-center">
-                        <h2 class="font-light m-b-0">Comp Off</h2>
-                        <h6 class="text-muted"></h6></div>
-                    
-                    <div class="col text-right align-self-center">
-                        <div data-label="<?php echo isset($leave_balance->comp_off_bal)? $leave_balance->comp_off_bal : 0 ; ?>" class="css-bar m-b-0 css-bar-primary css-bar-<?php echo isset($leave_balance->comp_off_bal)? ceil($leave_balance->comp_off_bal / 5) * 5 : 0 ; ?>"></div>
-                    </div>
-                </div>
             </div>
         </div>
-
-        <div class="col-md-6 col-lg-3">
-            <div class="card card-body">
-                
-                <div class="row">
-                    
-                    <div class="col p-r-0 align-self-center">
-                        <h2 class="font-light m-b-0">Upcomming</h2>
-                        <h6 class="text-muted"></h6></div>
-                    
-                    <div class="col text-right align-self-center">
-                        <div data-label="<?php echo isset($pending->count)? $pending->count : 0 ; ?>" class="css-bar m-b-0 css-bar-warning css-bar-<?php echo isset($pending->count)? $pending->count * 5: 0 ; ?>"></div>
+        <div class="col-md-3 grid-margin stretch-card">
+            <div class="card border-0 border-radius-2 bg-info">
+            <div class="card-body">
+                <div class="d-flex flex-md-column flex-xl-row flex-wrap  align-items-center justify-content-between">
+                <div class="icon-rounded-inverse-info icon-rounded-lg">
+                    <i class="mdi mdi-currency-inr mx-0"></i>
+                </div>
+                <div class="text-white">
+                    <p class="font-weight-medium mt-md-2 mt-xl-0 text-md-center text-xl-left">Total <?php echo ($payble_count->balance_amt < 0)? 'Payble' : 'Receivable'; ?></p>
+                    <div class="d-flex flex-md-column flex-xl-row flex-wrap align-items-baseline align-items-md-center align-items-xl-baseline">
+                    <h3 class="mb-0 mb-md-1 mb-lg-0 mr-1"><?php echo abs($payble_count->balance_amt); ?></h3>
+                    <small class="mb-0"></small>
                     </div>
                 </div>
+                </div>
+            </div>
             </div>
         </div>
-
+        <div class="col-md-3 grid-margin stretch-card">
+            <div class="card border-0 border-radius-2 bg-danger">
+            <div class="card-body">
+                <div class="d-flex flex-md-column flex-xl-row flex-wrap  align-items-center justify-content-between">
+                <div class="icon-rounded-inverse-danger icon-rounded-lg">
+                    <i class="mdi mdi-chart-donut-variant"></i>
+                </div>
+                <div class="text-white">
+                    <p class="font-weight-medium mt-md-2 mt-xl-0 text-md-center text-xl-left">Unapproved Claims</p>
+                    <div class="d-flex flex-md-column flex-xl-row flex-wrap align-items-baseline align-items-md-center align-items-xl-baseline">
+                    <h3 class="mb-0 mb-md-1 mb-lg-0 mr-1"><?php echo $unapproved_count->count; ?></h3>
+                    <small class="mb-0"></small>
+                    </div>
+                </div>
+                </div>
+            </div>
+            </div>
+        </div>
+        <div class="col-md-3 grid-margin stretch-card">
+            <div class="card border-0 border-radius-2 bg-warning">
+            <div class="card-body">
+                <div class="d-flex flex-md-column flex-xl-row flex-wrap  align-items-center justify-content-between">
+                <div class="icon-rounded-inverse-warning icon-rounded-lg">
+                    <i class="mdi mdi-chart-multiline"></i>
+                </div>
+                <div class="text-white">
+                    <p class="font-weight-medium mt-md-2 mt-xl-0 text-md-center text-xl-left">Total Payslip</p>
+                    <div class="d-flex flex-md-column flex-xl-row flex-wrap align-items-baseline align-items-md-center align-items-xl-baseline">
+                    <h3 class="mb-0 mb-md-1 mb-lg-0 mr-1"><?php echo $payslip_count->count; ?></h3>
+                    <small class="mb-0"></small>
+                    </div>
+                </div>
+                </div>
+            </div>
+            </div>
+        </div>
     </div>
-
-    <div class="row">
-        
-        <div class="col-md-6 col-lg-3">
-            <div class="card card-body">
-                
-                <div class="row">
-                    
-                    <div class="col p-r-0 align-self-center">
-                        <h2 class="font-light m-b-0">Rejected</h2>
-                        <h6 class="text-muted"></h6></div>
-                    
-                    <div class="col text-right align-self-center">
-                        <div data-label="<?php echo isset($reject->count)? $reject->count : 0 ; ?>" class="css-bar m-b-0 css-bar-danger css-bar-<?php echo isset($reject->count)? $reject->count * 5 : 0 ; ?>"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </div>    

@@ -159,27 +159,18 @@ class Auths extends MX_Controller {
 
         if($this->session->userdata('loggedin')){
 
-            $link['link']       =   array("/assets/plugins/css-chart/css-chart.css");
+            $link['title'] = 'Mysore Home';
 
-            $link['title']      =   'Mysore Home';
-
-            $script['script']   =   [];
-
-            //User Details
-            $select = array("emp_code", "emp_name", "department",
-                            "designation", "personal_email", 
-                            "img_path");
-
-            $link['user_dtls']   = $this->Auth->f_get_particulars("md_employee", $select, array("emp_code" => $this->session->userdata('loggedin')->user_id), 1);
-
-            //var_dump($link['user_dtls']);die;
-            $link['notice_count']   = $this->Auth->f_get_particulars("td_notices", array("count(1) count"), array( "org_id" => $this->session->userdata('loggedin')->org_id ), 1);
+            $link['notice_count'] = $this->Auth->f_get_particulars("td_notices", array("count(1) count"), array( "org_id" => $this->session->userdata('loggedin')->org_id ), 1);
+            $link['payslip_count'] = $this->Auth->f_get_payslipno();
+            $link['payble_count'] = $this->Auth->f_get_particulars("td_balance_amt", array("emp_code", "MAX(balance_dt) balance_dt", "balance_amt"), array( "org_id" => $this->session->userdata('loggedin')->org_id, "emp_code = '".$this->session->userdata('loggedin')->user_id."' GROUP BY emp_code, balance_amt ORDER BY balance_dt DESC LIMIT 0,1" => NULL), 1);
+            $link['unapproved_count'] = $this->Auth->f_get_particulars("td_claim", array("count(1) count"), array( "org_id" => $this->session->userdata('loggedin')->org_id, "emp_code" => $this->session->userdata('loggedin')->user_id, "approval_status" => 0 ), 1);
             
             $this->load->view('header', $link);
 
-            //$this->load->view('dashboard');
+            $this->load->view('dashboard');
 
-            //$this->load->view('footer', $script);
+            $this->load->view('footer');
 
 
         }

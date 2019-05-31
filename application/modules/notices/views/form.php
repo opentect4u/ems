@@ -20,6 +20,7 @@
                                     <input type="text" 
                                            class="form-control"
                                            name="subject"
+                                           required
                                            value="<?php echo $notice->subject;?>"
                                         />
                                 </div>
@@ -31,7 +32,7 @@
                             <div class="form-group row">
                                 <label class="col-sm-1 col-form-label">Notice <span class="required">*</span></label>
                                 <div class="col-sm-11">
-                                    <textarea name="notice" class="form-control" cols="50" rows="30"><?php echo $notice->notice; ?></textarea>
+                                    <textarea name="notice" required class="form-control" cols="50" rows="30"><?php echo $notice->notice; ?></textarea>
                                 </div>
                             </div>
                         </div>
@@ -42,3 +43,7 @@
     </div>
     <button type="submit" class="btn btn-primary mr-2">Submit</button>
 </form>
+
+<script>
+        CKEDITOR.replace( 'notice' );
+</script>
