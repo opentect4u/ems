@@ -49,10 +49,10 @@
                     <li class="nav-item dropdown mr-1">
                         <a class="nav-link count-indicator dropdown-toggle d-flex justify-content-center align-items-center" id="messageDropdown" href="#" data-toggle="dropdown">
                             <i class="mdi mdi-email mx-0">
-                                <span style="font-size: 5px;" class="badge badge-pill badge-light" ><?php echo $notice_count->count;?></span>
                             </i>
+                            <span class="indicator badge badge-pill badge-primary  d-lg-block" ><?php echo $notice_count->count;?></span>
                         </a>
-                        <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="messageDropdown">
+                        <!-- <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="messageDropdown">
                         <p class="mb-0 font-weight-normal float-left dropdown-header">Messages</p>
                         <a class="dropdown-item preview-item">
                             <div class="preview-thumbnail">
@@ -90,59 +90,12 @@
                             </p>
                             </div>
                         </a>
-                        </div>
-                    </li>
-                    <li class="nav-item dropdown mr-4">
-                        <a class="nav-link count-indicator dropdown-toggle d-flex align-items-center justify-content-center" id="notificationDropdown" href="#" data-toggle="dropdown">
-                        <i class="mdi mdi-bell mx-0"></i>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="notificationDropdown">
-                        <p class="mb-0 font-weight-normal float-left dropdown-header">Notifications</p>
-                        <a class="dropdown-item preview-item">
-                            <div class="preview-thumbnail">
-                            <div class="preview-icon bg-success">
-                                <i class="mdi mdi-information mx-0"></i>
-                            </div>
-                            </div>
-                            <div class="preview-item-content">
-                            <h6 class="preview-subject font-weight-normal">Application Error</h6>
-                            <p class="font-weight-light small-text mb-0 text-muted">
-                                Just now
-                            </p>
-                            </div>
-                        </a>
-                        <a class="dropdown-item preview-item">
-                            <div class="preview-thumbnail">
-                            <div class="preview-icon bg-warning">
-                                <i class="mdi mdi-settings mx-0"></i>
-                            </div>
-                            </div>
-                            <div class="preview-item-content">
-                            <h6 class="preview-subject font-weight-normal">Settings</h6>
-                            <p class="font-weight-light small-text mb-0 text-muted">
-                                Private message
-                            </p>
-                            </div>
-                        </a>
-                        <a class="dropdown-item preview-item">
-                            <div class="preview-thumbnail">
-                            <div class="preview-icon bg-info">
-                                <i class="mdi mdi-account-box mx-0"></i>
-                            </div>
-                            </div>
-                            <div class="preview-item-content">
-                            <h6 class="preview-subject font-weight-normal">New user registration</h6>
-                            <p class="font-weight-light small-text mb-0 text-muted">
-                                2 days ago
-                            </p>
-                            </div>
-                        </a>
-                        </div>
+                        </div> -->
                     </li>
                     <li class="nav-item nav-profile dropdown mr-0 mr-sm-2">
                         <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
                         <img src="https://via.placeholder.com/40x40" alt="profile"/>
-                        <span class="nav-profile-name">Don Richards</span>
+                        <span class="nav-profile-name"><?php echo $this->session->userdata('loggedin')->user_name; ?></span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
                         <a class="dropdown-item">
@@ -166,7 +119,7 @@
                 <div class="container">
                 <ul class="nav page-navigation">
                     <li class="nav-item">
-                    <a class="nav-link" href="index.html">
+                    <a class="nav-link" href="<?php echo site_url('auth/home'); ?>">
                         <i class="mdi mdi-home-outline menu-icon"></i>
                         <span class="menu-title">Dashboard</span>
                     </a>

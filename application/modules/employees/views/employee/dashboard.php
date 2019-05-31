@@ -60,7 +60,7 @@
                                     <td><?php echo $e_dtls->prof_email; ?></td>
                                     <td><a href="javascript:void(0)" class="status" id="<?php echo $e_dtls->emp_code; ?>" val="<?php echo $e_dtls->emp_status; ?>">
 
-                                            <span class="badge badge-<?php echo ($e_dtls->emp_status == "A")? 'success' : 'danger'; ?>"><?php echo ($e_dtls->emp_status == "A")? 'Active':'Inactive'; ?></span> 
+                                            <span class="checked badge badge-<?php echo ($e_dtls->emp_status == "A")? 'success' : 'danger'; ?>"><?php echo ($e_dtls->emp_status == "A")? 'Active':'Inactive'; ?></span> 
 
                                         </a>
                                     </td>
@@ -128,15 +128,15 @@
 
                     if(value == 'A'){
                         
-                        $('.badge:eq('+indexNo+')').attr('class', 'badge badge-danger');
-                        $('.badge:eq('+indexNo+')').html('Inactive');
+                        $('.checked:eq('+indexNo+')').attr('class', 'checked badge badge-danger');
+                        $('.checked:eq('+indexNo+')').html('Inactive');
                         $('.status:eq('+indexNo+')').attr('val', data);
 
                     }
                     else{
                         
-                        $('.badge:eq('+indexNo+')').attr('class', 'badge badge-success');
-                        $('.badge:eq('+indexNo+')').html('Active');
+                        $('.checked:eq('+indexNo+')').attr('class', 'checked badge badge-success');
+                        $('.checked:eq('+indexNo+')').html('Active');
                         $('.status:eq('+indexNo+')').attr('val', data);
 
                     } 

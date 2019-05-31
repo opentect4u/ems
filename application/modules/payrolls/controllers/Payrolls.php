@@ -20,18 +20,10 @@ class Payrolls extends MX_Controller {
 
         $link['title']  = 'Payroll Details';
 
-        $link['link']   =   [
-
-            "/assets/plugins/footable/css/footable.core.css",
-
-            "/assets/plugins/bootstrap-select/bootstrap-select.min.css"
-
-        ];
-
         $select = array("emp_code", "emp_name", "img_path");
 
         $link['user_dtls']   = $this->Payroll->f_get_particulars("md_employee", $select, array("emp_code" => $this->session->userdata('loggedin')->user_id), 1);
-
+        $link['notice_count']   = $this->Payroll->f_get_particulars("td_notices", array("count(1) count"), array( "org_id" => $this->session->userdata('loggedin')->org_id ), 1);
 
         $this->load->view('header', $link);
         

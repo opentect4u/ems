@@ -23,7 +23,7 @@ class PayslipGenerations extends MX_Controller {
         $select = array("emp_code", "emp_name", "img_path");
 
         $link['user_dtls']   = $this->Payroll->f_get_particulars("md_employee", $select, array("emp_code" => $this->session->userdata('loggedin')->user_id), 1);
-
+        $link['notice_count']   = $this->Payroll->f_get_particulars("td_notices", array("count(1) count"), array( "org_id" => $this->session->userdata('loggedin')->org_id ), 1);
 
         $this->load->view('header', $link);
         

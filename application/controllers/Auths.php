@@ -173,6 +173,7 @@ class Auths extends MX_Controller {
             $link['user_dtls']   = $this->Auth->f_get_particulars("md_employee", $select, array("emp_code" => $this->session->userdata('loggedin')->user_id), 1);
 
             //var_dump($link['user_dtls']);die;
+            $link['notice_count']   = $this->Auth->f_get_particulars("td_notices", array("count(1) count"), array( "org_id" => $this->session->userdata('loggedin')->org_id ), 1);
             
             $this->load->view('header', $link);
 
