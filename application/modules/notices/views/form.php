@@ -41,7 +41,13 @@
             </div>
         </div>
     </div>
+    <?php
+        if(!$this->input->get('view')){
+    ?>
     <button type="submit" class="btn btn-primary mr-2">Submit</button>
+    <?php
+        }
+    ?>
 </form>
 
 <script>

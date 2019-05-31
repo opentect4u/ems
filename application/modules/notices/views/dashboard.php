@@ -23,7 +23,8 @@
                                 <th>ID</th>
                                 <th>Date</th>
                                 <th>Subject</th>
-                                <th>Action</th>
+                                <th>Edit</th>
+                                <th>View</th>
 
                             </tr>
 
@@ -52,6 +53,18 @@
                                         >
 
                                             <i class="fas fa-pencil-alt text-inverse m-r-10" style="color: #007bff"></i>
+                                            
+                                        </a>
+                                        
+                                    </td>
+                                    <td>
+                                    
+                                        <a href="<?php echo site_url('notice/edit?notice_cd='.$list->notice_cd.'&view=1'); ?>"
+                                           class="view"
+                                           title="View"
+                                        >
+
+                                            <i class="fas fa-eye text-inverse m-r-10" style="color: #007bff"></i>
                                             
                                         </a>
                                         
