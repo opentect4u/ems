@@ -40,7 +40,8 @@ class Employees extends MX_Controller {
         
         $where  = array(
 
-                    "m.department = d.sl_no"    => NULL
+            "m.department = d.sl_no"    => NULL,
+            "m.org_id" => $this->session->userdata('loggedin')->org_id
         ); 
 
         $employee['employee_dtls']    =   $this->Employee->f_get_particulars("md_employee m, md_departments d", $select, $where, 0);

@@ -18,20 +18,10 @@ class Leaves extends MX_Controller {
         
         $link['title']  = 'Leave Management';
 
-        $link['link']   =   [
-            
-            "/assets/plugins/footable/css/footable.core.css",
-
-            "/assets/plugins/bootstrap-select/bootstrap-select.min.css",
-
-            "/assets/plugins/daterangepicker/daterangepicker.css"
-        
-        ];
-
         $select = array("emp_code", "emp_name", "img_path");
 
         $link['user_dtls']   = $this->Leave->f_get_particulars("md_employee", $select, array("emp_code" => $this->session->userdata('loggedin')->user_id), 1);
-
+        $link['notice_count']   = $this->Leave->f_get_particulars("td_notices", array("count(1) count"), array( "org_id" => $this->session->userdata('loggedin')->org_id ), 1);
 
         $this->load->view('header', $link);
 
@@ -41,39 +31,27 @@ class Leaves extends MX_Controller {
 
         //Leave List
         $select =   array(
-            
-            "trans_cd", "trans_dt", "leave_type",
-            "reason", "from_dt", "to_dt", "remarks", "recommendation_status"
+            "t.trans_cd", "t.trans_dt", "m.type_desc leave_type",
+            "t.reason", "t.from_dt", "t.to_dt", "t.remarks"
         
         );
 
         $where  =   array(
-
-            "emp_code"          =>  $this->session->userdata('loggedin')->user_id,
-            
-            "approval_status"   =>  0,
-
-            "rejection_status"  => 0
-            
+            "t.org_id = m.org_id" => NULL,
+            "t.leave_type = m.type_cd" => NULL,
+            "t.emp_code"          =>  $this->session->userdata('loggedin')->user_id,
+            "t.approval_status"   =>  0,
+            "t.org_id" => $this->session->userdata('loggedin')->org_id,
         );
 
-        $leave['leave_dtls']    =   $this->Leave->f_get_particulars("td_leaves_trans", $select, $where, 0);
+        $leave['leave_dtls']    =   $this->Leave->f_get_particulars("td_leaves_trans t, md_leave_type m", $select, $where, 0);
         
         //Department List
         $leave['department']    =   $this->Leave->f_get_particulars("md_departments", array("sl_no", "dept_name"), NULL, 0);
 
         $this->load->view("leave/dashboard", $leave);
 
-
-        $script['script'] = [
-            
-            '/assets/plugins/footable/js/footable.all.min.js',
-
-            '/assets/plugins/bootstrap-select/bootstrap-select.min.js'
-        
-        ];
-
-        $this->load->view('footer', $script);
+        $this->load->view('footer');
         
 
     }
@@ -96,68 +74,38 @@ class Leaves extends MX_Controller {
 
               }
             
-            //Leave Period  
-            $period         =   explode('-', str_replace(' ', '', $this->input->post('period')));              
-            
             //Difference between to dates
-            $diff_period    =   round((strtotime(date('Y-m-d', strtotime(str_replace('/', '-', $period[1])))) - strtotime(date('Y-m-d', strtotime(str_replace('/', '-', $period[0]))))) / (60 * 60 * 24));
+            $diff_period    =  date_diff(date_create($this->input->post('from_dt')), date_create($this->input->post('to_dt')))->format("%a") + 1;
             
-            if($this->session->userdata('loggedin')->emp_type == 'H'){ $recommendation_remarks = 'HOD'; }
-            else if($this->session->userdata('loggedin')->emp_type == 'HR'){ $recommendation_remarks = 'HR'; } 
-            else{ $recommendation_remarks = NULL; }
-
             //For Leave Trans Table
             $data_array     =   array (
-                
+                "org_id" => $this->session->userdata('loggedin')->org_id,
                 "trans_cd"         =>  $maxCode,
-
                 "trans_dt"         =>  date('Y-m-d'),
-
                 "emp_code"         =>  $this->session->userdata('loggedin')->user_id,
-
                 "department"       =>  $this->session->userdata('loggedin')->department,
-                
                 "leave_type"       =>  $this->input->post('leave_type'),
-
                 "reason"           =>  $this->input->post('reason'),
-                
-                "from_dt"          =>  date('Y-m-d', strtotime(str_replace('/', '-', $period[0]))),
-
-                "to_dt"            =>  date('Y-m-d', strtotime(str_replace('/', '-', $period[1]))),
-
+                "from_dt"          =>  $this->input->post('from_dt'),
+                "to_dt"            =>  $this->input->post('to_dt'),
                 "remarks"          =>  $this->input->post('remarks'),
-
-                "amount"           =>  $diff_period + 1,
-
-                "recommendation_status"=> ($this->session->userdata('loggedin')->emp_type == 'H' || $this->session->userdata('loggedin')->emp_type == 'HR')? 1 : 0,
-                
-                "recommend_by"     => ($this->session->userdata('loggedin')->emp_type == 'H')? $this->session->userdata('loggedin')->user_name : NULL,
-                
-                "recommend_dt"     => ($this->session->userdata('loggedin')->emp_type == 'H')? date('Y-m-d h:i:s') : NULL,
-
-                "recommend_remarks"=> $recommendation_remarks,
-
+                "amount"           =>  $diff_period,
                 "created_by"       =>  $this->session->userdata('loggedin')->user_name,
-    
                 "created_dt"       =>  date('Y-m-d h:i:s')
-    
             );
 
             $this->Leave->f_insert('td_leaves_trans', $data_array);            
 
             //For Leave Date Table
             unset($data_array);
-            for($i = 0; $i <= $diff_period; $i++){
+            for($i = 0; $i < $diff_period; $i++){
 
-                $date = strtotime("+".$i." day", strtotime(str_replace('/', '-', $period[0])));
-                
+                $date = strtotime("+".$i." day", strtotime($this->input->post('from_dt')));
                 
                 $data_array[]     =   array(
-
+                    "org_id" => $this->session->userdata('loggedin')->org_id,
                     "trans_cd"  =>  $maxCode,
-
                     "emp_code"  =>  $this->session->userdata('loggedin')->user_id,
-                    
                     "leave_dt"  =>  date("Y-m-d", $date)
                 );
 
@@ -176,43 +124,28 @@ class Leaves extends MX_Controller {
 
             $this->session->set_flashdata('msg', $message);
 
-            redirect('leaves');
+            redirect('leave');
 
         }
 
         //Dependencies
         $data['url']    = 'add';
         
-        //Forwarding Null Value to view
-        $data['emp'] = (object) array ("emp_code" => NULL);
+        //Leave Types
+        $data['leave_type'] = $this->Leave->f_get_particulars('md_leave_type', array('type_cd', 'type_desc'), array( "org_id" => $this->session->userdata('loggedin')->org_id), 0);
         
-        $data['leave_dtls']   =   (object) array ( "trans_cd"       =>    NULL,
-
-                                                   "from_dt"        =>    date('Y-m-d'),
-
-                                                   "to_dt"          =>    date('Y-m-d'),
-
-                                                   "reason"         =>    NULL,
-                                                    
-                                                   "leave_type"     =>    NULL,
-
-                                                   "remarks"        =>    NULL
-
-                                                );
+        $data['leave']   =   (object) array ( "trans_cd"       =>    NULL,
+                                              "from_dt"        =>    date('Y-m-d'),
+                                              "to_dt"          =>    date('Y-m-d'),
+                                              "reason"         =>    NULL,
+                                              "leave_type"     =>    NULL,
+                                              "remarks"        =>    NULL,
+                                              "reason"         =>    NULL
+                                            );
 
         $this->load->view('leave/form', $data);
 
-        $script['script'] = [
-
-            "/assets/plugins/moment/moment.js",
-
-            "/assets/plugins/daterangepicker/daterangepicker.js",
-
-            "/js/moduleValidations.js"
-
-        ];
-
-        $this->load->view('footer', $script);
+        $this->load->view('footer');
 
     }
 
@@ -221,74 +154,49 @@ class Leaves extends MX_Controller {
         
         if($_SERVER['REQUEST_METHOD'] == "POST"){
 
-            //Leave Period  
-            $period         =   explode('-', str_replace(' ', '', $this->input->post('period')));              
-            
             //Difference between to dates
-            $diff_period    =   round((strtotime(date('Y-m-d', strtotime(str_replace('/', '-', $period[1])))) - strtotime(date('Y-m-d', strtotime(str_replace('/', '-', $period[0]))))) / (60 * 60 * 24));
+            $diff_period    =  date_diff(date_create($this->input->post('from_dt')), date_create($this->input->post('to_dt')))->format("%a") + 1;            
 
             //For Leave Trans Table
             $data_array     =   array (
 
+                "trans_dt"         =>  date('Y-m-d'),
+                "emp_code"         =>  $this->session->userdata('loggedin')->user_id,
+                "department"       =>  $this->session->userdata('loggedin')->department,
                 "leave_type"       =>  $this->input->post('leave_type'),
-
                 "reason"           =>  $this->input->post('reason'),
-                
-                "from_dt"          =>  date('Y-m-d', strtotime(str_replace('/', '-', $period[0]))),
-
-                "to_dt"            =>  date('Y-m-d', strtotime(str_replace('/', '-', $period[1]))),
-
+                "from_dt"          =>  $this->input->post('from_dt'),
+                "to_dt"            =>  $this->input->post('to_dt'),
                 "remarks"          =>  $this->input->post('remarks'),
-
-                "amount"           =>  $diff_period + 1,
-
+                "amount"           =>  $diff_period,
                 "modified_by"      =>  $this->session->userdata('loggedin')->user_name,
-    
                 "modified_dt"      =>  date('Y-m-d h:i:s')
-    
+
             );
 
             $where  =   array(
-
-                "trans_cd"         =>  $this->session->userdata('valid')['trans_cd'],
-
-                "emp_code"         =>  $this->session->userdata('loggedin')->user_id,
-
-                "department"       =>  $this->session->userdata('loggedin')->department
-
+                "org_id" => $this->session->userdata('loggedin')->org_id, 
+                "emp_code" =>  $this->session->userdata('loggedin')->user_id,
+                "trans_cd" =>  $this->input->post('trans_cd')
             );
 
             $this->Leave->f_edit('td_leaves_trans', $data_array, $where);            
 
-            //Delete Dates
-            unset($where);
-
-            $where  =   array(
-
-                "trans_cd"         =>  $this->session->userdata('valid')['trans_cd'],
-
-                "emp_code"         =>  $this->session->userdata('loggedin')->user_id
-
-            );
-
+            //Delete Dates            
             $this->Leave->f_delete('td_leave_dates', $where);
 
             //For Leave Date Table
             unset($data_array);
 
-            for($i = 0; $i <= $diff_period; $i++) {
+            for($i = 0; $i < $diff_period; $i++) {
 
-                $date = strtotime("+".$i." day", strtotime(str_replace('/', '-', $period[0])));
+                $date = strtotime("+".$i." day", strtotime($this->input->post('from_dt')));
                 
-                
-                $data_array[]    =   array(
-
-                    "trans_cd"  =>  $this->session->userdata('valid')['trans_cd'],
-
+                $data_array[]     =   array(
+                    "org_id" => $this->session->userdata('loggedin')->org_id,
+                    "trans_cd"  =>  $this->input->post('trans_cd'),
                     "emp_code"  =>  $this->session->userdata('loggedin')->user_id,
-                    
                     "leave_dt"  =>  date("Y-m-d", $date)
-
                 );
 
             }
@@ -306,7 +214,7 @@ class Leaves extends MX_Controller {
 
             $this->session->set_flashdata('msg', $message);
     
-            redirect('leaves');
+            redirect('leave');
 
         }
 
@@ -316,48 +224,26 @@ class Leaves extends MX_Controller {
         //Leave Details
         $select =   array(
             
-            "trans_cd", "leave_type","reason",
+            "trans_cd", "leave_type", "reason",
             "from_dt", "to_dt", "remarks"
         
         );
 
         $where  =   array(
-
+            "org_id" => $this->session->userdata('loggedin')->org_id,
             "trans_cd"         =>  $this->input->get('trans_cd'),
-
             "emp_code"         =>  $this->session->userdata('loggedin')->user_id,
-
-            "department"       =>  $this->session->userdata('loggedin')->department,
-
-            "recommendation_status"=> ($this->session->userdata('loggedin')->emp_type == 'H')? 1 : 0,
-
             "approval_status"  => 0
         );
 
-        $leave['leave_dtls']    =   $this->Leave->f_get_particulars("td_leaves_trans", $select, $where, 1);
+        $leave['leave']    =   $this->Leave->f_get_particulars("td_leaves_trans", $select, $where, 1);
 
+        //Leave Types
+        $leave['leave_type'] = $this->Leave->f_get_particulars('md_leave_type', array('type_cd', 'type_desc'), array( "org_id" => $this->session->userdata('loggedin')->org_id), 0);
+        
         $this->load->view('leave/form', $leave);
 
-        $script['script'] = [
-
-            "/assets/plugins/moment/moment.js",
-
-            "/assets/plugins/daterangepicker/daterangepicker.js",
-
-            "/js/moduleValidations.js"
-
-        ];
-
-        //Setting hidden data for validation
-        $data_array =   array(
-
-            "trans_cd"  =>  (isset($leave['leave_dtls']->trans_cd))? $leave['leave_dtls']->trans_cd : null
-            
-        );
-
-        $this->session->set_userdata('valid', $data_array);
-
-        $this->load->view('footer', $script);
+        $this->load->view('footer');
 
     }
 

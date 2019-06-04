@@ -193,7 +193,7 @@
                             <i class="menu-arrow"></i></a>
                         <div class="submenu">
                             <ul class="submenu-item">
-                                <li class="nav-item"><a class="nav-link" href="pages/forms/basic_elements.html">Employee Management</a></li>
+                                <li class="nav-item"><a class="nav-link" href="<?php echo site_url('leave'); ?>">Add & Edit Leave</a></li>
                             </ul>
                         </div>
                     </li>
