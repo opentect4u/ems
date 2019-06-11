@@ -247,7 +247,7 @@ class Leaves extends MX_Controller {
 
     }
 
-    //Leave Edit Form
+    //Leave Delete
     public function f_delete(){
 
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
@@ -256,18 +256,7 @@ class Leaves extends MX_Controller {
 
             $this->Leave->f_delete('td_leave_dates', array("trans_cd" => $this->input->post('trans_cd')));
 
-            //Setting Messages
-            $message    =   array( 
-                    
-                'message'   => 'Successfully deleted!',
-                
-                'status'    => 'danger'
-                
-            );
-
-            $this->session->set_flashdata('msg', $message);
-
-            redirect('leaves');
+            exit;
 
         }
 

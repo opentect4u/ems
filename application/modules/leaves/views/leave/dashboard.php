@@ -99,9 +99,21 @@
     $(document).ready(function(){
 
         $('.delete').click(function(){
+        
+          if(alert('Are you sure?')){
+            $.ajax({
+                url: "<?php echo site_url('leave/delete');?>",
+                data: {
+                    trans_cd: $(this).attr('id')
+                },
+                type: "POST"
+            });
 
-            $('#del').val($(this).attr('id'));
-
+            $('.delete').parents('tr:eq('+ $(".delete").index(this) +')').remove();
+            $('.alert').attr('class', 'col-md-3 alert alert-success');
+            $('.alert').html('Successfully Deleted <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">×</span> </button>').show();
+  
+          }
         });
 
     });
